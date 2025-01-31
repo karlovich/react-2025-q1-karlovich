@@ -55,7 +55,7 @@ export class SearchResults extends Component<
         </div>
         <div>
           {this.state.results.map((character, index) => {
-            return <Card key={index} />;
+            if (character) return <Card key={index} />;
           })}
         </div>
       </div>
