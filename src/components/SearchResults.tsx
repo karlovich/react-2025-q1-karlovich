@@ -1,18 +1,16 @@
 import { Component } from 'react';
 import { Card } from './Card';
+import { Character } from '../shared/types';
+import { Loader } from './Loader';
 
 interface SearchResultsProps {
   searchTerm: string;
 }
 
-interface Character {
-  name: string;
-  gender: string;
-}
-
 interface SearchResultsState {
   count: number;
   results: Character[];
+  loading: boolean;
 }
 
 export class SearchResults extends Component<
@@ -22,6 +20,7 @@ export class SearchResults extends Component<
   state: SearchResultsState = {
     count: 0,
     results: [],
+    loading: true,
   };
 
   componentDidMount() {
@@ -35,6 +34,8 @@ export class SearchResults extends Component<
   }
 
   async fetchData(text: string) {
+    this.setState({ loading: true });
+
     const response = await fetch(
       `https://swapi.dev/api/people/?search=${text}`
     );
@@ -44,6 +45,7 @@ export class SearchResults extends Component<
     this.setState({
       count: data.count,
       results: data.results,
+      loading: false,
     });
   }
 
@@ -54,9 +56,13 @@ export class SearchResults extends Component<
           <h1>Search Results Area. Total Count: {this.state.count}</h1>
         </div>
         <div>
-          {this.state.results.map((character, index) => {
-            if (character) return <Card key={index} />;
-          })}
+          {this.state.loading ? (
+            <Loader />
+          ) : (
+            this.state.results.map((character, index) => {
+              if (character) return <Card key={index} character={character} />;
+            })
+          )}
         </div>
       </div>
     );

@@ -1,12 +1,17 @@
 import { Component } from 'react';
+import { Character } from '../shared/types';
 
-export class Card extends Component {
+interface CardProps {
+  character: Character;
+}
+
+export class Card extends Component<CardProps> {
   render() {
     return (
       <div>
-        <h1>Card</h1>
-        <span>Card title </span>
-        <span>Card description</span>
+        <h3>Star Wars Character</h3>
+        <div>Name: {this.props.character.name}</div>
+        <div>Gender: {this.props.character.name}</div>
       </div>
     );
   }

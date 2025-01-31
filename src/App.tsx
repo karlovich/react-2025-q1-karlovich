@@ -7,13 +7,13 @@ class App extends Component {
     return (
       <>
         <header>
-          <h1>Title of the project</h1>
+          <h1>Star War Universe</h1>
         </header>
         <main>
           <MainPage />
         </main>
         <footer>
-          <h5>Footer of the project</h5>
+          <h5>Footer of the universe</h5>
         </footer>
       </>
     );
