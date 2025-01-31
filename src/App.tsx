@@ -6,7 +6,15 @@ class App extends Component {
   render() {
     return (
       <>
-        <MainPage />
+        <header>
+          <h1>Title of the project</h1>
+        </header>
+        <main>
+          <MainPage />
+        </main>
+        <footer>
+          <h5>Footer of the project</h5>
+        </footer>
       </>
     );
   }

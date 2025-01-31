@@ -1,15 +1,28 @@
 import { Component } from 'react';
-import { TopBar } from './TopBar';
+import { SearchBar } from './SearchBar';
 import { SearchResults } from './SearchResults';
 import { ErrorButton } from './ErrorButton';
 
-export class MainPage extends Component {
+interface MainPageState {
+  searchTerm: string;
+}
+
+export class MainPage extends Component<{}, MainPageState> {
+  state: MainPageState = {
+    searchTerm: '',
+  };
+
+  onSearch = (text: string) => {
+    this.setState({
+      searchTerm: text,
+    });
+  };
+
   render() {
     return (
-      <div>
-        <h1>MainPage</h1>
-        <TopBar />
-        <SearchResults searchTerm="" />
+      <div className="main-page">
+        <SearchBar onSearch={this.onSearch} />
+        <SearchResults searchTerm={this.state.searchTerm} />
         <ErrorButton />
       </div>
     );
