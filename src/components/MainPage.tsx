@@ -3,13 +3,13 @@ import { TopBar } from './TopBar';
 import { SearchResults } from './SearchResults';
 import { ErrorButton } from './ErrorButton';
 
-export class Layout extends Component {
+export class MainPage extends Component {
   render() {
     return (
       <div>
-        <h1>Layout</h1>
+        <h1>MainPage</h1>
         <TopBar />
-        <SearchResults />
+        <SearchResults searchTerm="" />
         <ErrorButton />
       </div>
     );
