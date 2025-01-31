@@ -7,7 +7,7 @@ interface MainPageState {
   searchTerm: string;
 }
 
-export class MainPage extends Component<{}, MainPageState> {
+export class MainPage extends Component<unknown, MainPageState> {
   state: MainPageState = {
     searchTerm: '',
   };
