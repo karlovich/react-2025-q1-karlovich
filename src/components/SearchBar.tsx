@@ -1,6 +1,7 @@
 import { Component } from 'react';
 
 interface SearchBarProps {
+  searchTerm: string;
   onSearch: (searchTerm: string) => void;
 }
 
@@ -9,6 +10,10 @@ interface SearchBarState {
 }
 
 export class SearchBar extends Component<SearchBarProps, SearchBarState> {
+  state: SearchBarState = {
+    searchInput: this.props.searchTerm,
+  };
+
   onButtonClick = () => {
     this.props.onSearch(this.state.searchInput);
   };
@@ -27,6 +32,7 @@ export class SearchBar extends Component<SearchBarProps, SearchBarState> {
           className="search-input"
           type="text"
           placeholder="Search..."
+          value={this.state.searchInput}
         />
         <button onClick={this.onButtonClick} className="search-button">
           Search
