@@ -5,6 +5,7 @@ import { Loader } from './Loader';
 
 interface SearchResultsProps {
   searchTerm: string;
+  showError: boolean;
 }
 
 interface SearchResultsState {
@@ -28,6 +29,9 @@ export class SearchResults extends Component<
   }
 
   componentDidUpdate(prevProps: SearchResultsProps) {
+    if (this.props.showError) {
+      throw new Error('Let the fight begin');
+    }
     if (prevProps.searchTerm != this.props.searchTerm) {
       this.fetchData(this.props.searchTerm);
     }
