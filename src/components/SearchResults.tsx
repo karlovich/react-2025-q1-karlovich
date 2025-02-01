@@ -2,6 +2,7 @@ import { Component } from 'react';
 import { Card } from './Card';
 import { Character } from '../shared/types';
 import { Loader } from './Loader';
+import { SearchFallback } from './SearchFallback';
 
 interface SearchResultsProps {
   searchTerm: string;
@@ -12,6 +13,7 @@ interface SearchResultsState {
   count: number;
   results: Character[];
   loading: boolean;
+  error: boolean;
 }
 
 export class SearchResults extends Component<
@@ -22,6 +24,7 @@ export class SearchResults extends Component<
     count: 0,
     results: [],
     loading: true,
+    error: false,
   };
 
   componentDidMount() {
@@ -33,27 +36,40 @@ export class SearchResults extends Component<
       throw new Error('Let the fight begin');
     }
     if (prevProps.searchTerm != this.props.searchTerm) {
-      this.fetchData(this.props.searchTerm);
+      this.setState({ error: false }, () => {
+        this.fetchData(this.props.searchTerm);
+      });
     }
   }
 
   async fetchData(text: string) {
-    this.setState({ loading: true });
+    try {
+      this.setState({ loading: true });
 
-    const response = await fetch(
-      `https://swapi.dev/api/people/?search=${text}`
-    );
+      const response = await fetch(
+        `https://swapi.dev/api/people/?search=${text}`
+      );
 
-    const data = await response.json();
+      const data = await response.json();
 
-    this.setState({
-      count: data.count,
-      results: data.results,
-      loading: false,
-    });
+      this.setState({
+        count: data.count,
+        results: data.results,
+        loading: false,
+      });
+    } catch {
+      this.setState({
+        error: true,
+        loading: false,
+      });
+    }
   }
 
   render() {
+    if (this.state.error) {
+      return <SearchFallback />;
+    }
+
     return (
       <div>
         <div>
