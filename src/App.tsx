@@ -6,14 +6,24 @@ class App extends Component {
   render() {
     return (
       <>
-        <header>
-          <h1>Star War Universe</h1>
+        <header className="bg-black text-white p-4">
+          <h1 className="text-2xl font-bold text-center">
+            Star Wars Universe: Find Information About Your Favorite Characters
+          </h1>
         </header>
-        <main>
+        <main className="p-4 bg-white text-black">
           <MainPage />
         </main>
-        <footer>
-          <h5>Footer of the universe</h5>
+        <footer className="bg-black text-white p-4">
+          <h5 className="text-center">
+            <a
+              href="https://github.com/karlovich/"
+              target="_blank"
+              rel="noreferrer"
+            >
+              github: karlovich. RS React 2025 Q1.
+            </a>
+          </h5>
         </footer>
       </>
     );

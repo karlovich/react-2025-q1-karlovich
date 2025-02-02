@@ -10,7 +10,10 @@ export class ErrorButton extends Component<ErrorButtonProps> {
 
   render() {
     return (
-      <button onClick={this.onButtonClick} className="error-button">
+      <button
+        onClick={this.onButtonClick}
+        className="bg-red-500 text-white p-2 rounded cursor-pointer mt-4"
+      >
         Test Error
       </button>
     );

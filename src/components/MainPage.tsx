@@ -35,7 +35,7 @@ export class MainPage extends Component<unknown, MainPageState> {
 
   render() {
     return (
-      <div className="main-page">
+      <>
         <SearchBar
           searchTerm={this.state.searchTerm}
           onSearch={this.onSearch}
@@ -49,8 +49,10 @@ export class MainPage extends Component<unknown, MainPageState> {
             showError={this.state.raiseError}
           />
         </ErrorBoundary>
-        <ErrorButton onRaiseError={this.onRaiseError} />
-      </div>
+        <div className="flex p-4 justify-end">
+          <ErrorButton onRaiseError={this.onRaiseError} />
+        </div>
+      </>
     );
   }
 }

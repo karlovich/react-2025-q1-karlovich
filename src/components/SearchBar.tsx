@@ -26,15 +26,18 @@ export class SearchBar extends Component<SearchBarProps, SearchBarState> {
 
   render() {
     return (
-      <div className="search-bar">
+      <div className="flex space-x-2 justify-center w-full max-w-md mx-auto">
         <input
           onChange={this.onInputChange}
-          className="search-input"
+          className="border border-black p-2 rounded bg-white text-black w-full"
           type="text"
           placeholder="Search..."
           value={this.state.searchInput}
         />
-        <button onClick={this.onButtonClick} className="search-button">
+        <button
+          onClick={this.onButtonClick}
+          className="bg-black text-white p-2 rounded cursor-pointer"
+        >
           Search
         </button>
       </div>

@@ -33,7 +33,7 @@ export class SearchResults extends Component<
 
   componentDidUpdate(prevProps: SearchResultsProps) {
     if (this.props.showError) {
-      throw new Error('Let the fight begin');
+      throw new Error('May the 4th be with u');
     }
     if (prevProps.searchTerm != this.props.searchTerm) {
       this.setState({ error: false }, () => {
@@ -71,17 +71,23 @@ export class SearchResults extends Component<
     }
 
     return (
-      <div>
-        <div>
-          <h1>Search Results Area. Total Count: {this.state.count}</h1>
+      <div className="p-4">
+        <div className="mb-4">
+          <h1 className="text-xl font-bold text-black">
+            {this.state.count > 0
+              ? `Search of the Galactic Republic found ${this.state.count} creatures`
+              : 'No Creatures Found'}
+          </h1>
         </div>
         <div>
           {this.state.loading ? (
             <Loader />
           ) : (
-            this.state.results.map((character, index) => {
-              if (character) return <Card key={index} character={character} />;
-            })
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+              {this.state.results.map((character, index) => (
+                <Card key={index} character={character} />
+              ))}
+            </div>
           )}
         </div>
       </div>
