@@ -24,7 +24,7 @@ export class MainPage extends Component<unknown, MainPageState> {
       searchTerm: text,
     });
 
-    LocalStorageService.set(LOCAL_STORAGE_KEYS.SEARCH_TERM, text);
+    LocalStorageService.set(LOCAL_STORAGE_KEYS.SEARCH_TERM, text.trim());
   };
 
   onRaiseError = () => {

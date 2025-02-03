@@ -47,7 +47,7 @@ export class SearchResults extends Component<
       this.setState({ loading: true });
 
       const response = await fetch(
-        `https://swapi.dev/api/people/?search=${text}`
+        `https://swapi.dev/api/people/?search=${text.trim()}`
       );
 
       const data = await response.json();
