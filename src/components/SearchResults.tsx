@@ -84,8 +84,8 @@ export class SearchResults extends Component<
             <Loader />
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-              {this.state.results.map((character, index) => (
-                <Card key={index} character={character} />
+              {this.state.results.map((character) => (
+                <Card key={character.url} character={character} />
               ))}
             </div>
           )}

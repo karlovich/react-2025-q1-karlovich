@@ -7,10 +7,12 @@ interface CardProps {
 
 export class Card extends Component<CardProps> {
   render() {
+    const { name, gender } = this.props.character;
+
     return (
       <div className="border border-black p-4 rounded shadow-md bg-white text-black">
-        <div>Name: {this.props.character.name}</div>
-        <div>Gender: {this.props.character.name}</div>
+        <div>Name: {name}</div>
+        <div>Gender: {gender}</div>
       </div>
     );
   }
