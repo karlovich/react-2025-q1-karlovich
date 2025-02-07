@@ -1,4 +1,4 @@
-import { Component } from 'react';
+import { useState } from 'react';
 import { SearchBar } from './SearchBar';
 import { SearchResults } from './SearchResults';
 import { ErrorButton } from './ErrorButton';
@@ -7,52 +7,31 @@ import { LOCAL_STORAGE_KEYS } from '../shared/constants';
 import { ErrorBoundary } from './ErrorBoundary';
 import { SearchFallback } from './SearchFallback';
 
-interface MainPageState {
-  searchTerm: string;
-  raiseError: boolean;
-}
+export const MainPage = () => {
+  const [searchTerm, setSearchTerm] = useState(
+    LocalStorageService.get(LOCAL_STORAGE_KEYS.SEARCH_TERM) || ''
+  );
+  const [raiseError, setRaiseError] = useState(false);
 
-export class MainPage extends Component<unknown, MainPageState> {
-  state: MainPageState = {
-    searchTerm: LocalStorageService.get(LOCAL_STORAGE_KEYS.SEARCH_TERM) || '',
-    raiseError: false,
-  };
-
-  onSearch = (text: string) => {
-    this.setState({
-      raiseError: false,
-      searchTerm: text,
-    });
-
+  const onSearch = (text: string) => {
+    setRaiseError(false);
+    setSearchTerm(text);
     LocalStorageService.set(LOCAL_STORAGE_KEYS.SEARCH_TERM, text.trim());
   };
 
-  onRaiseError = () => {
-    this.setState({
-      raiseError: true,
-    });
+  const onRaiseError = () => {
+    setRaiseError(true);
   };
 
-  render() {
-    return (
-      <>
-        <SearchBar
-          searchTerm={this.state.searchTerm}
-          onSearch={this.onSearch}
-        />
-        <ErrorBoundary
-          fallbackUI={<SearchFallback />}
-          tryAgain={!this.state.raiseError}
-        >
-          <SearchResults
-            searchTerm={this.state.searchTerm}
-            showError={this.state.raiseError}
-          />
-        </ErrorBoundary>
-        <div className="flex p-4 justify-end">
-          <ErrorButton onRaiseError={this.onRaiseError} />
-        </div>
-      </>
-    );
-  }
-}
+  return (
+    <>
+      <SearchBar searchTerm={searchTerm} onSearch={onSearch} />
+      <ErrorBoundary fallbackUI={<SearchFallback />} tryAgain={!raiseError}>
+        <SearchResults searchTerm={searchTerm} showError={raiseError} />
+      </ErrorBoundary>
+      <div className="flex p-4 justify-end">
+        <ErrorButton onRaiseError={onRaiseError} />
+      </div>
+    </>
+  );
+};

@@ -1,46 +1,36 @@
-import { Component } from 'react';
+import { useState } from 'react';
 
 interface SearchBarProps {
   searchTerm: string;
   onSearch: (searchTerm: string) => void;
 }
 
-interface SearchBarState {
-  searchInput: string;
-}
+export const SearchBar = ({ searchTerm, onSearch }: SearchBarProps) => {
+  const [searchInput, setSearchInput] = useState(searchTerm);
 
-export class SearchBar extends Component<SearchBarProps, SearchBarState> {
-  state: SearchBarState = {
-    searchInput: this.props.searchTerm,
+  const onButtonClick = () => {
+    onSearch(searchInput);
   };
 
-  onButtonClick = () => {
-    this.props.onSearch(this.state.searchInput);
+  const onInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchInput(e.target.value);
   };
 
-  onInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    this.setState({
-      searchInput: e.target.value,
-    });
-  };
-
-  render() {
-    return (
-      <div className="flex space-x-2 justify-center w-full max-w-md mx-auto">
-        <input
-          onChange={this.onInputChange}
-          className="border border-black p-2 rounded bg-white text-black w-full"
-          type="text"
-          placeholder="Search..."
-          value={this.state.searchInput}
-        />
-        <button
-          onClick={this.onButtonClick}
-          className="bg-black text-white p-2 rounded cursor-pointer"
-        >
-          Search
-        </button>
-      </div>
-    );
-  }
-}
+  return (
+    <div className="flex space-x-2 justify-center w-full max-w-md mx-auto">
+      <input
+        onChange={onInputChange}
+        className="border border-black p-2 rounded bg-white text-black w-full"
+        type="text"
+        placeholder="Search..."
+        value={searchInput}
+      />
+      <button
+        onClick={onButtonClick}
+        className="bg-black text-white p-2 rounded cursor-pointer"
+      >
+        Search
+      </button>
+    </div>
+  );
+};
