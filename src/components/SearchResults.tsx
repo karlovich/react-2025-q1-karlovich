@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Card } from './Card';
 import { Character } from '../shared/types';
-import { Loader } from './Loader';
+import { Loader } from './Loader/Loader';
 import { SearchFallback } from './SearchFallback';
 
 interface SearchResultsProps {

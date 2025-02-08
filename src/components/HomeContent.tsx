@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { SearchBar } from './SearchBar';
 import { SearchResults } from './SearchResults';
 import { ErrorButton } from './ErrorButton';
@@ -6,7 +6,7 @@ import { ErrorBoundary } from './ErrorBoundary';
 import { SearchFallback } from './SearchFallback';
 import { useLocalStorage } from '../hooks/useLocalStorage';
 
-export const MainPage = () => {
+export const HomeContent = () => {
   const [searchTerm, setSearchTerm] = useLocalStorage();
   const [raiseError, setRaiseError] = useState(false);
 
