@@ -4,6 +4,7 @@ import { Page404 } from './pages/Page404';
 import { Header } from './components/Header';
 import { Footer } from './components/Footer';
 import { About } from './pages/About';
+import { InfoPanel } from './components/InfoPanel';
 
 const App = () => {
   return (
@@ -11,7 +12,10 @@ const App = () => {
       <Navigation />
       <Routes>
         <Route element={<Layout />}>
-          <Route path="/" element={<HomePage />} />
+          <Route path="/" element={<HomePage />}>
+            <Route path="characters/:id" element={<InfoPanel />} />
+          </Route>
+
           <Route path="/about" element={<About />} />
           <Route path="*" element={<Page404 />} />
         </Route>
