@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router';
 import { Card } from './Card';
 import { Character } from '../shared/types';
@@ -15,14 +15,14 @@ export const SearchResults = ({
   searchTerm,
   showError,
 }: SearchResultsProps) => {
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [, setSearchParams] = useSearchParams();
   const [count, setCount] = useState(0);
   const [results, setResults] = useState<Character[]>([]);
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(true);
   const [nextUrl, setNextUrl] = useState(null);
   const [prevUrl, setPrevUrl] = useState(null);
-  const isFirstRender = useRef(true);
+
   const fetchData = async (text: string, page: string) => {
     try {
       setLoading(true);
@@ -44,16 +44,9 @@ export const SearchResults = ({
   };
 
   useEffect(() => {
-    let page = '';
-    if (isFirstRender.current) {
-      page = searchParams.get('page') || '';
-      isFirstRender.current = false;
-    } else {
-      searchParams.delete('page');
-      setSearchParams(searchParams);
-    }
-
-    fetchData(searchTerm, page);
+    // searchParams.delete('page');
+    // setSearchParams(searchParams);
+    fetchData(searchTerm, '');
   }, [searchTerm]);
 
   useEffect(() => {
