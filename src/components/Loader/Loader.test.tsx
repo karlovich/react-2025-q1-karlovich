@@ -6,7 +6,7 @@ import fadeCircles from '../../assets/fade-stagger-circles.svg';
 
 let loaderImg: HTMLElement;
 
-describe('Renders Loader Correctly', () => {
+describe('Loader Component', () => {
   beforeEach(() => {
     render(<Loader />);
     loaderImg = screen.getByTestId('test-loader-img');

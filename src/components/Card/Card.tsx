@@ -1,4 +1,4 @@
-import { Character } from '../shared/types';
+import { Character } from '../../shared/types';
 import { useNavigate, useLocation } from 'react-router';
 
 interface CardProps {
@@ -23,6 +23,7 @@ export const Card = ({ character }: CardProps) => {
         onClick(url);
       }}
       className="border border-black p-4 rounded shadow-md bg-white text-black"
+      data-testid="test-card"
     >
       <div>Name: {name}</div>
       <div>Gender: {gender}</div>

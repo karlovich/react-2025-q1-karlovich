@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
-import { SearchBar } from './SearchBar';
-import { SearchResults } from './SearchResults';
-import { ErrorButton } from './ErrorButton';
-import { ErrorBoundary } from './ErrorBoundary';
-import { SearchFallback } from './SearchFallback';
-import { useLocalStorage } from '../hooks/useLocalStorage';
+import { SearchBar } from '../SearchBar/SearchBar';
+import { SearchResults } from '../SearchResults/SearchResults';
+import { ErrorButton } from '../ErrorButton/ErrorButton';
+import { ErrorBoundary } from '../ErrorBoundary';
+import { SearchFallback } from '../SearchFallback/SearchFallback';
+import { useLocalStorage } from '../../hooks/useLocalStorage';
 import { Outlet, useParams } from 'react-router';
 
 export const HomeContent = () => {

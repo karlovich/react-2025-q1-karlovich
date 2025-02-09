@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router';
-import { Card } from './Card';
-import { Character } from '../shared/types';
-import { Loader } from './Loader/Loader';
-import { SearchFallback } from './SearchFallback';
-import { Pager } from './Pager';
+import { Card } from '../Card/Card';
+import { Character } from '../../shared/types';
+import { Loader } from '../Loader/Loader';
+import { SearchFallback } from '../SearchFallback/SearchFallback';
+import { Pager } from '../Pager/Pager';
 
 interface SearchResultsProps {
   searchTerm: string;

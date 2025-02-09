@@ -1,6 +1,6 @@
 export const Footer = () => {
   return (
-    <footer className="bg-black text-white p-4">
+    <footer className="bg-black text-white p-4" data-testid="test-footer">
       <h5 className="text-center">
         <a
           href="https://github.com/karlovich/"

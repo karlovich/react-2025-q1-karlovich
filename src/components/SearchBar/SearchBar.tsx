@@ -24,6 +24,7 @@ export const SearchBar = ({ searchTerm, onSearch }: SearchBarProps) => {
         type="text"
         placeholder="Search..."
         value={searchInput}
+        data-testid="search-input-test"
       />
       <button
         onClick={onButtonClick}

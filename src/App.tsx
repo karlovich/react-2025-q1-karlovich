@@ -1,10 +1,10 @@
 import { Link, Outlet, Route, Routes } from 'react-router';
 import HomePage from './pages/HomePage';
-import { Page404 } from './pages/Page404';
-import { Header } from './components/Header';
-import { Footer } from './components/Footer';
-import { About } from './pages/About';
-import { InfoPanel } from './components/InfoPanel';
+import { Page404 } from './pages/Page404/Page404';
+import { Header } from './components/Header/Header';
+import { Footer } from './components/Footer/Footer';
+import { About } from './pages/About/About';
+import { InfoPanel } from './components/InfoPanel/InfoPanel';
 
 const App = () => {
   return (

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
-import { Character } from '../shared/types';
-import { Loader } from './Loader/Loader';
+import { Character } from '../../shared/types';
+import { Loader } from '../Loader/Loader';
 
 export const InfoPanel = () => {
   const [loading, setLoading] = useState(true);
@@ -47,8 +47,9 @@ export const InfoPanel = () => {
     <>
       {characterDetails.map((detail) => (
         <div key={detail.label}>
-          <span className="font-bold">{detail.label}: </span>
-          {detail.value}
+          <span className="font-bold">
+            {detail.label}: {detail.value}
+          </span>
         </div>
       ))}
     </>
