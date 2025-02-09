@@ -1,33 +1,52 @@
-import { Component } from 'react';
-import './App.css';
-import { MainPage } from './components/MainPage';
+import { Link, Outlet, Route, Routes } from 'react-router';
+import HomePage from './pages/HomePage';
+import { Page404 } from './pages/Page404/Page404';
+import { Header } from './components/Header/Header';
+import { Footer } from './components/Footer/Footer';
+import { About } from './pages/About/About';
+import { InfoPanel } from './components/InfoPanel/InfoPanel';
 
-class App extends Component {
-  render() {
-    return (
-      <>
-        <header className="bg-black text-white p-4">
-          <h1 className="text-2xl font-bold text-center">
-            Star Wars Universe: Find Information About Your Favorite Characters
-          </h1>
-        </header>
-        <main className="p-4 bg-white text-black">
-          <MainPage />
-        </main>
-        <footer className="bg-black text-white p-4">
-          <h5 className="text-center">
-            <a
-              href="https://github.com/karlovich/"
-              target="_blank"
-              rel="noreferrer"
-            >
-              github: karlovich. RS React 2025 Q1.
-            </a>
-          </h5>
-        </footer>
-      </>
-    );
-  }
-}
+const App = () => {
+  return (
+    <>
+      <Navigation />
+      <Routes>
+        <Route element={<Layout />}>
+          <Route path="/" element={<HomePage />}>
+            <Route path="characters/:id" element={<InfoPanel />} />
+          </Route>
+
+          <Route path="/about" element={<About />} />
+          <Route path="*" element={<Page404 />} />
+        </Route>
+      </Routes>
+    </>
+  );
+};
+
+const Layout = () => {
+  return (
+    <>
+      <Header />
+      <main className="p-4 bg-white text-black">
+        <Outlet />
+      </main>
+      <Footer />
+    </>
+  );
+};
+
+const Navigation = () => {
+  return (
+    <nav className="bg-black text-white p-4 text-2xl font-bold flex gap-4 border-b-2 border-white">
+      <Link to="/" className="hover:text-gray-400">
+        Home
+      </Link>
+      <Link to="/about" className="hover:text-gray-400">
+        About
+      </Link>
+    </nav>
+  );
+};
 
 export default App;
