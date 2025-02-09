@@ -1,5 +1,5 @@
 import { Character } from '../shared/types';
-import { useNavigate } from 'react-router';
+import { useNavigate, useLocation } from 'react-router';
 
 interface CardProps {
   character: Character;
@@ -7,12 +7,13 @@ interface CardProps {
 
 export const Card = ({ character }: CardProps) => {
   const navigate = useNavigate();
+  const location = useLocation();
   const { name, gender, url } = character;
 
   const onClick = (url: string) => {
     const id = (url && url.split('/')[5]) || '';
     if (id) {
-      navigate(`/characters/${id}`);
+      navigate(`/characters/${id}` + location.search);
     }
   };
 

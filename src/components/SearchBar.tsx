@@ -27,7 +27,7 @@ export const SearchBar = ({ searchTerm, onSearch }: SearchBarProps) => {
       />
       <button
         onClick={onButtonClick}
-        className="bg-black text-white p-2 rounded cursor-pointer"
+        className="bg-black text-white p-2 rounded cursor-pointer hover:bg-gray-800"
       >
         Search
       </button>

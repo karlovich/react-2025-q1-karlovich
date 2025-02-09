@@ -1,8 +1,10 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
+import { useSearchParams } from 'react-router';
 import { Card } from './Card';
 import { Character } from '../shared/types';
 import { Loader } from './Loader/Loader';
 import { SearchFallback } from './SearchFallback';
+import { Pager } from './Pager';
 
 interface SearchResultsProps {
   searchTerm: string;
@@ -13,22 +15,27 @@ export const SearchResults = ({
   searchTerm,
   showError,
 }: SearchResultsProps) => {
+  const [searchParams, setSearchParams] = useSearchParams();
   const [count, setCount] = useState(0);
   const [results, setResults] = useState<Character[]>([]);
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(true);
-
-  const fetchData = async (text: string) => {
+  const [nextUrl, setNextUrl] = useState(null);
+  const [prevUrl, setPrevUrl] = useState(null);
+  const isFirstRender = useRef(true);
+  const fetchData = async (text: string, page: string) => {
     try {
       setLoading(true);
 
       const response = await fetch(
-        `https://swapi.dev/api/people/?search=${text.trim()}`
+        `https://swapi.dev/api/people/?search=${text.trim()}&page=${page}`
       );
 
       const data = await response.json();
       setCount(data.count);
       setResults(data.results);
+      setNextUrl(data.next);
+      setPrevUrl(data.previous);
       setLoading(false);
     } catch {
       setError(true);
@@ -37,7 +44,16 @@ export const SearchResults = ({
   };
 
   useEffect(() => {
-    fetchData(searchTerm);
+    let page = '';
+    if (isFirstRender.current) {
+      page = searchParams.get('page') || '';
+      isFirstRender.current = false;
+    } else {
+      searchParams.delete('page');
+      setSearchParams(searchParams);
+    }
+
+    fetchData(searchTerm, page);
   }, [searchTerm]);
 
   useEffect(() => {
@@ -49,6 +65,13 @@ export const SearchResults = ({
   if (error) {
     return <SearchFallback />;
   }
+
+  const onPaging = (page: string) => {
+    if (page) {
+      setSearchParams({ page: page });
+      fetchData(searchTerm, page);
+    }
+  };
 
   return (
     <div className="p-4">
@@ -63,11 +86,15 @@ export const SearchResults = ({
         {loading ? (
           <Loader />
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-            {results.map((character) => (
-              <Card key={character.url} character={character} />
-            ))}
-          </div>
+          <>
+            <Pager onPaging={onPaging} nextUrl={nextUrl} prevUrl={prevUrl} />
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+              {results &&
+                results.map((character) => (
+                  <Card key={character.url} character={character} />
+                ))}
+            </div>
+          </>
         )}
       </div>
     </div>
