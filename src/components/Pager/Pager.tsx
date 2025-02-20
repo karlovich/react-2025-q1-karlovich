@@ -1,5 +1,3 @@
-// import { useSearchParams } from 'react-router';
-
 interface PagerProps {
   nextUrl: string | null;
   prevUrl: string | null;

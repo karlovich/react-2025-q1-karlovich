@@ -44,8 +44,6 @@ export const SearchResults = ({
   };
 
   useEffect(() => {
-    // searchParams.delete('page');
-    // setSearchParams(searchParams);
     fetchData(searchTerm, '');
   }, [searchTerm]);
 
