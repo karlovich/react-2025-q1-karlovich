@@ -19,9 +19,12 @@ export const cardStoreSlice = createSlice({
     remove: (state, action: PayloadAction<string>) => {
       state.characters.splice(state.characters.indexOf(action.payload), 1);
     },
+    reset: () => {
+      return initialState;
+    },
   },
 });
 
-export const { add, remove } = cardStoreSlice.actions;
+export const { add, remove, reset } = cardStoreSlice.actions;
 
 export default cardStoreSlice.reducer;

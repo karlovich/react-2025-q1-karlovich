@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { Character } from '../../shared/types';
 import { useNavigate, useLocation } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
@@ -17,10 +16,10 @@ export const Card = ({ character }: CardProps) => {
     const id = (url && url.split('/')[5]) || '';
     return id;
   };
-  const isChecked = useSelector(
+  const checked = useSelector(
     (state: RootState) => state.cardStore.characters.indexOf(getId(url)) !== -1
   );
-  const [checked, setChecked] = useState(isChecked);
+
   const dispatch = useDispatch();
 
   const onClick = (url: string) => {
@@ -31,7 +30,6 @@ export const Card = ({ character }: CardProps) => {
   };
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>, id: string) => {
-    setChecked(e.target.checked);
     if (e.target.checked) {
       dispatch(add(id));
     } else {

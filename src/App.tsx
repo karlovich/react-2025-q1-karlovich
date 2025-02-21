@@ -5,7 +5,7 @@ import { Header } from './components/Header/Header';
 import { Footer } from './components/Footer/Footer';
 import { About } from './pages/About/About';
 import { InfoPanel } from './components/InfoPanel/InfoPanel';
-
+import { ToastMessage } from './components/ToastMessage/ToastMessage';
 const App = () => {
   return (
     <>
@@ -32,6 +32,7 @@ const Layout = () => {
         <Outlet />
       </main>
       <Footer />
+      <ToastMessage />
     </>
   );
 };
