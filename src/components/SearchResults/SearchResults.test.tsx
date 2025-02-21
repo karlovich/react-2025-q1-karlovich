@@ -4,6 +4,8 @@ import '@testing-library/jest-dom';
 import { MemoryRouter } from 'react-router';
 import { SearchResults } from './SearchResults';
 import { Character } from '../../shared/types';
+import { Provider } from 'react-redux';
+import { store } from '../../app/store';
 
 vi.mock('react-router', async (importOriginal) => {
   const actual = (await importOriginal()) as typeof import('react-router');
@@ -64,7 +66,9 @@ describe('SearchResults Component', () => {
 
     render(
       <MemoryRouter>
-        <SearchResults searchTerm="Luke" showError={false} />
+        <Provider store={store}>
+          <SearchResults searchTerm="Luke" showError={false} />
+        </Provider>
       </MemoryRouter>
     );
 

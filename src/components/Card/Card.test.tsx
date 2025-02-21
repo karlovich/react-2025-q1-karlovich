@@ -5,6 +5,8 @@ import { MemoryRouter } from 'react-router';
 import { Card } from './Card';
 import { Character } from '../../shared/types';
 import { useNavigate } from 'react-router';
+import { Provider } from 'react-redux';
+import { store } from '../../app/store';
 
 vi.mock('react-router', async (importOriginal) => {
   const actual = (await importOriginal()) as typeof import('react-router'); // Assert type
@@ -32,13 +34,15 @@ describe('Card Component', () => {
     vi.mocked(useNavigate).mockReturnValue(mockNavigate);
     render(
       <MemoryRouter>
-        <Card character={mockedCharacter} />
+        <Provider store={store}>
+          <Card character={mockedCharacter} />
+        </Provider>
       </MemoryRouter>
     );
 
     const card = screen.getByTestId('test-card');
 
-    expect(card.childElementCount).toBe(2);
+    expect(card.childElementCount).toBe(3);
     const nameElement = screen.getByText('Name: Luke Skywalker');
     const genderElement = screen.getByText('Gender: male');
     expect(card).toContainElement(nameElement);
