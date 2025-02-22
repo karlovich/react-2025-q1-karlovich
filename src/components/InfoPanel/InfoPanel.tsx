@@ -1,34 +1,20 @@
-import { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
-import { Character } from '../../shared/types';
 import { Loader } from '../Loader/Loader';
+import { useGetCharacterByIdQuery } from '../../services/charactersApi';
 
 export const InfoPanel = () => {
-  const [loading, setLoading] = useState(true);
   const { id } = useParams();
-  const [character, setCharacter] = useState<Character>();
-
-  const fetchData = async (id: string) => {
-    try {
-      setLoading(true);
-      const response = await fetch(`https://swapi.dev/api/people/${id.trim()}`);
-
-      const data = await response.json();
-      setCharacter(data);
-      setLoading(false);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  useEffect(() => {
-    if (id) {
-      fetchData(id);
-    }
-  }, [id]);
-
-  if (loading) {
-    return <Loader />;
+  if (id === undefined) {
+    throw Error('There is no valid id in query string');
+  }
+  const {
+    data: character,
+    error,
+    isLoading,
+    isFetching,
+  } = useGetCharacterByIdQuery(id);
+  if (error) {
+    console.error(error);
   }
 
   const characterDetails = [
@@ -42,6 +28,8 @@ export const InfoPanel = () => {
     { label: 'Skin Color', value: character?.skin_color },
     { label: 'Eye Color', value: character?.eye_color },
   ];
+
+  if (isLoading || isFetching) return <Loader />;
 
   return (
     <>

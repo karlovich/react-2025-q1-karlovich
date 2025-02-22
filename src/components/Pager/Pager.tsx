@@ -1,16 +1,20 @@
+import { useSearchParams } from 'react-router';
+
 interface PagerProps {
   nextUrl: string | null;
   prevUrl: string | null;
-  onPaging: (page: string) => void;
 }
 
-export const Pager = ({ prevUrl, nextUrl, onPaging }: PagerProps) => {
+export const Pager = ({ prevUrl, nextUrl }: PagerProps) => {
+  const [, setSearchParams] = useSearchParams();
+
   const onMovePage = (url: string | null) => {
     if (url) {
       const page = url.split('page=')[1];
-      onPaging(page);
+      setSearchParams({ page: page });
     }
   };
+
   return (
     <div className="flex gap-2 py-2">
       <button

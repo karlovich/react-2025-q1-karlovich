@@ -9,3 +9,10 @@ export interface Character {
   skin_color: string;
   eye_color: string;
 }
+
+export interface CharacterSearchResults {
+  count: number;
+  next: string | null;
+  previous: string | null;
+  results: Character[];
+}
