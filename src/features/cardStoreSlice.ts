@@ -1,8 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
+import { Character } from '../shared/types';
 
 export interface CardStoreState {
-  characters: string[];
+  characters: Character[];
 }
 
 const initialState: CardStoreState = {
@@ -13,11 +14,19 @@ export const cardStoreSlice = createSlice({
   name: 'cardStore',
   initialState,
   reducers: {
-    add: (state, action: PayloadAction<string>) => {
-      state.characters.push(action.payload);
+    add: (state, action: PayloadAction<Character>) => {
+      if (
+        state.characters.find(
+          (character) => character.url === action.payload.url
+        ) === undefined
+      ) {
+        state.characters.push(action.payload);
+      }
     },
-    remove: (state, action: PayloadAction<string>) => {
-      state.characters.splice(state.characters.indexOf(action.payload), 1);
+    remove: (state, action: PayloadAction<Character>) => {
+      state.characters = state.characters.filter(
+        (character) => character.url !== action.payload.url
+      );
     },
     reset: () => {
       return initialState;

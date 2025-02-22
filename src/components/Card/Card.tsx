@@ -17,7 +17,9 @@ export const Card = ({ character }: CardProps) => {
     return id;
   };
   const checked = useSelector(
-    (state: RootState) => state.cardStore.characters.indexOf(getId(url)) !== -1
+    (state: RootState) =>
+      state.cardStore.characters.find((item) => item.url === character.url) !==
+      undefined
   );
 
   const dispatch = useDispatch();
@@ -29,11 +31,11 @@ export const Card = ({ character }: CardProps) => {
     }
   };
 
-  const onChange = (e: React.ChangeEvent<HTMLInputElement>, id: string) => {
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.checked) {
-      dispatch(add(id));
+      dispatch(add(character));
     } else {
-      dispatch(remove(id));
+      dispatch(remove(character));
     }
   };
 
@@ -51,7 +53,7 @@ export const Card = ({ character }: CardProps) => {
             id={`checked-checkbox-${getId(url)}`}
             type="checkbox"
             checked={checked}
-            onChange={(e) => onChange(e, getId(url))}
+            onChange={(e) => onChange(e)}
             value=""
             className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
           />

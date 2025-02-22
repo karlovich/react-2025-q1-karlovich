@@ -1,6 +1,7 @@
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../../app/store';
 import { reset } from '../../features/cardStoreSlice';
+import CsvExportBtn from '../CsvExportBtn/CsvExportBtn';
 
 export const ToastMessage = () => {
   const dispatch = useDispatch();
@@ -12,13 +13,11 @@ export const ToastMessage = () => {
     dispatch(reset());
   };
 
-  const onDownload = () => {};
-
   return (
     <div className={count > 0 ? 'block' : 'hidden'}>
       <div>
         <button onClick={onUnselectaAll}>Unselect All</button>
-        <button onClick={onDownload}>Download</button>
+        <CsvExportBtn />
       </div>
       <div>Count Of Selected Items: {count}</div>
     </div>
