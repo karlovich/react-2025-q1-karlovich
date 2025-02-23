@@ -18,6 +18,7 @@ export const ToastMessage = () => {
       className={`${
         count > 0 ? 'block' : 'hidden'
       } absolute bottom-4 left-4 bg-black text-white p-4 rounded-lg shadow-lg`}
+      data-testid="toast-message-container"
     >
       <div className="flex gap-4">
         <button
