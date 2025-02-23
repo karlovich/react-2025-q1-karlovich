@@ -55,7 +55,7 @@ export const handlers = [
     if (searchTerm === 'Luke') {
       return HttpResponse.json(mockResponseForLuke);
     } else {
-      HttpResponse.json({
+      return HttpResponse.json({
         count: 0,
         results: [],
         next: null,

@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux';
 const CsvExportBtn = () => {
   const linkRef = useRef<HTMLAnchorElement | null>(null);
   const [downloadUrl, setDownloadUrl] = useState('');
+  const [downloadName, setDownloadName] = useState('download.csv');
   const data = useSelector((state: RootState) => state.cardStore.characters);
   const downloadCSV = () => {
     const csvString = [
@@ -15,7 +16,7 @@ const CsvExportBtn = () => {
       .join('\n');
 
     const blob = new Blob([csvString], { type: 'text/csv' });
-
+    setDownloadName(`${data.length}_starwars_characters.csv`);
     setDownloadUrl(URL.createObjectURL(blob));
   };
 
@@ -26,15 +27,20 @@ const CsvExportBtn = () => {
   }, [downloadUrl]);
 
   return (
-    <div>
-      <button onClick={downloadCSV}>Download</button>
+    <>
+      <button
+        onClick={downloadCSV}
+        className="bg-white text-black px-4 py-2 rounded-md cursor-pointer hover:bg-neutral-300"
+      >
+        Download
+      </button>
       <a
         ref={linkRef}
         href={downloadUrl}
-        download="download.csv"
+        download={downloadName}
         style={{ display: 'none' }}
       ></a>
-    </div>
+    </>
   );
 };
 
