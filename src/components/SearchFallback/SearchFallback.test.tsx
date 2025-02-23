@@ -9,7 +9,9 @@ describe('SearchFallback Component', () => {
 
     expect(screen.getByTestId('test-search-fallback')).toBeInTheDocument();
     expect(
-      screen.getByText('Something went wrong, please make search once again or')
+      screen.getByText(
+        'Unfortunately, search results are empty. Please make search once again or'
+      )
     ).toBeInTheDocument();
   });
 
