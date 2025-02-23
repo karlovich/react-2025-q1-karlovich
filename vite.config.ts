@@ -7,6 +7,7 @@ export default defineConfig({
   test: {
     globals: true,
     environment: 'jsdom',
+    setupFiles: './src/tests/setupTests.ts',
     exclude: [
       'node_modules',
       'dist',
@@ -14,7 +15,6 @@ export default defineConfig({
       '**/main.tsx',
       '**/SearchResults.test.tsx',
       '**/SearchFallback.test.tsx',
-      '**/InfoPanel.test.tsx',
       '**/Pager.test.tsx',
     ],
     coverage: {
