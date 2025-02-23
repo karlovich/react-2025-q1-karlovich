@@ -13,7 +13,6 @@ export default defineConfig({
       'dist',
       '**/App.tsx',
       '**/main.tsx',
-      '**/SearchResults.test.tsx',
       '**/SearchFallback.test.tsx',
       '**/Pager.test.tsx',
     ],

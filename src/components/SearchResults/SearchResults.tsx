@@ -37,7 +37,7 @@ export const SearchResults = ({
     <div className="p-4">
       <div className="mb-4">
         <h1 className="text-xl font-bold text-black">
-          Search of the Galactic Republic found ${data.count} creatures`
+          Search of the Galactic Republic found {data.count} creatures
         </h1>
       </div>
       <div>
