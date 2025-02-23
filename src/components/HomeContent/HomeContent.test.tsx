@@ -37,6 +37,6 @@ describe('HomeContent Component', () => {
     );
 
     const infoPanel = screen.getByTestId('info-panel-container');
-    expect(infoPanel).toHaveClass('w-1/3 p-2');
+    expect(infoPanel).toHaveClass('w-1/3');
   });
 });

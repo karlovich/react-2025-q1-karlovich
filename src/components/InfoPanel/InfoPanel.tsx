@@ -1,9 +1,13 @@
-import { useParams } from 'react-router';
+import { useParams, useNavigate, useLocation } from 'react-router';
 import { Loader } from '../Loader/Loader';
 import { useGetCharacterByIdQuery } from '../../services/charactersApi';
+import { useTheme } from '../../context/ThemeContext';
 
 export const InfoPanel = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { theme } = useTheme();
   if (id === undefined) {
     throw Error('There is no valid id in query string');
   }
@@ -31,8 +35,19 @@ export const InfoPanel = () => {
 
   if (isLoading || isFetching) return <Loader />;
 
+  const handleClose = () => {
+    const searchParams = new URLSearchParams(location.search);
+    navigate(`/?${searchParams.toString()}`);
+  };
+
   return (
-    <>
+    <div className="relative p-4">
+      <button
+        onClick={handleClose}
+        className={`${theme === 'dark-mode' ? 'bg-black text-white' : 'bg-amber-200 text-black'} absolute top-1 right-1 font-bold px-2 cursor-pointer`}
+      >
+        X
+      </button>
       {characterDetails.map((detail) => (
         <div key={detail.label}>
           <span className="font-bold">
@@ -40,6 +55,6 @@ export const InfoPanel = () => {
           </span>
         </div>
       ))}
-    </>
+    </div>
   );
 };

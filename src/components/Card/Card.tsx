@@ -43,7 +43,8 @@ export const Card = ({ character }: CardProps) => {
 
   return (
     <div
-      onClick={() => {
+      onClick={(e) => {
+        e.stopPropagation();
         onClick(url);
       }}
       className={`${theme === 'dark-mode' ? 'bg-white text-black border-black' : 'bg-zinc-800 text-white border-white'} border p-4 rounded shadow-md`}

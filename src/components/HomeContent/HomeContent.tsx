@@ -5,7 +5,7 @@ import { ErrorButton } from '../ErrorButton/ErrorButton';
 import { ErrorBoundary } from '../ErrorBoundary';
 import { SearchFallback } from '../SearchFallback/SearchFallback';
 import { useLocalStorage } from '../../hooks/useLocalStorage';
-import { Outlet, useParams } from 'react-router';
+import { Outlet, useParams, useNavigate, useLocation } from 'react-router';
 import { useTheme } from '../../context/ThemeContext';
 
 export const HomeContent = () => {
@@ -14,6 +14,8 @@ export const HomeContent = () => {
   const { theme } = useTheme();
   const [infoPanelVisibility, setInfoPanelVisibility] = useState(false);
   const { id } = useParams();
+  const navigate = useNavigate();
+  const location = useLocation();
   const onSearch = (text: string) => {
     setRaiseError(false);
     setSearchTerm(text);
@@ -21,6 +23,11 @@ export const HomeContent = () => {
 
   const onRaiseError = () => {
     setRaiseError(true);
+  };
+
+  const handleContainerClick = () => {
+    const searchParams = new URLSearchParams(location.search);
+    navigate(`/?${searchParams.toString()}`);
   };
 
   useEffect(() => {
@@ -32,6 +39,7 @@ export const HomeContent = () => {
       <div
         className={`transition-width duration-300 ${infoPanelVisibility ? 'w-2/3' : 'w-full'}`}
         data-testid="homecontent-panel-container"
+        onClick={handleContainerClick}
       >
         <SearchBar searchTerm={searchTerm} onSearch={onSearch} />
         <ErrorBoundary fallbackUI={<SearchFallback />} tryAgain={!raiseError}>
@@ -42,7 +50,7 @@ export const HomeContent = () => {
         </div>
       </div>
       <div
-        className={`${theme === 'dark-mode' ? 'bg-gray-200' : 'bg-sky-600'} p-4 transition-width duration-300 ${infoPanelVisibility ? 'w-1/3 p-2' : 'w-0'}`}
+        className={`${theme === 'dark-mode' ? 'bg-gray-200' : 'bg-sky-600'} transition-width duration-300 ${infoPanelVisibility ? 'w-1/3' : 'w-0'}`}
         data-testid="info-panel-container"
       >
         <Outlet />

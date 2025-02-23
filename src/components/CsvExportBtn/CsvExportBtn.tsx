@@ -39,6 +39,7 @@ const CsvExportBtn = () => {
         href={downloadUrl}
         download={downloadName}
         style={{ display: 'none' }}
+        data-testid="download-link-test"
       ></a>
     </>
   );

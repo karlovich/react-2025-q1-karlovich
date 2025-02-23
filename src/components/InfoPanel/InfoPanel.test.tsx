@@ -5,6 +5,7 @@ import { MemoryRouter, Route, Routes } from 'react-router';
 import { InfoPanel } from './InfoPanel';
 import { Provider } from 'react-redux';
 import { store } from '../../app/store';
+import { ThemeProvider } from '../../context/ThemeContext';
 
 vi.mock('react-router', async (importOriginal) => {
   const actual = (await importOriginal()) as typeof import('react-router');
@@ -19,9 +20,11 @@ describe('InfoPanel Component', () => {
     render(
       <MemoryRouter initialEntries={['/character/1']}>
         <Provider store={store}>
-          <Routes>
-            <Route path="/character/:id" element={<InfoPanel />} />
-          </Routes>
+          <ThemeProvider>
+            <Routes>
+              <Route path="/character/:id" element={<InfoPanel />} />
+            </Routes>
+          </ThemeProvider>
         </Provider>
       </MemoryRouter>
     );
@@ -33,9 +36,11 @@ describe('InfoPanel Component', () => {
     render(
       <MemoryRouter initialEntries={['/character/1']}>
         <Provider store={store}>
-          <Routes>
-            <Route path="/character/:id" element={<InfoPanel />} />
-          </Routes>
+          <ThemeProvider>
+            <Routes>
+              <Route path="/character/:id" element={<InfoPanel />} />
+            </Routes>
+          </ThemeProvider>
         </Provider>
       </MemoryRouter>
     );
