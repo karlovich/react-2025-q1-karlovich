@@ -26,9 +26,10 @@ export const HomeContent = () => {
   }, [id]);
 
   return (
-    <div className="flex">
+    <div className="flex" data-testid="homecontent-container">
       <div
         className={`transition-width duration-300 ${infoPanelVisibility ? 'w-2/3' : 'w-full'}`}
+        data-testid="homecontent-panel-container"
       >
         <SearchBar searchTerm={searchTerm} onSearch={onSearch} />
         <ErrorBoundary fallbackUI={<SearchFallback />} tryAgain={!raiseError}>
@@ -40,6 +41,7 @@ export const HomeContent = () => {
       </div>
       <div
         className={`bg-gray-200 transition-width duration-300 ${infoPanelVisibility ? 'w-1/3 p-2' : 'w-0'}`}
+        data-testid="info-panel-container"
       >
         <Outlet />
       </div>

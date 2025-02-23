@@ -7,6 +7,7 @@ import { Character } from '../../shared/types';
 import { useNavigate } from 'react-router';
 import { Provider } from 'react-redux';
 import { store } from '../../app/store';
+import { add, remove } from '../../features/cardStoreSlice';
 
 vi.mock('react-router', async (importOriginal) => {
   const actual = (await importOriginal()) as typeof import('react-router'); // Assert type
@@ -50,5 +51,40 @@ describe('Card Component', () => {
 
     fireEvent.click(card);
     expect(mockNavigate).toHaveBeenCalledWith('/characters/1');
+  });
+
+  it('dispatches add action when checkbox is checked', () => {
+    const dispatch = vi.spyOn(store, 'dispatch');
+
+    render(
+      <Provider store={store}>
+        <MemoryRouter>
+          <Card character={mockedCharacter} />
+        </MemoryRouter>
+      </Provider>
+    );
+
+    const checkbox = screen.getByRole('checkbox');
+    fireEvent.click(checkbox);
+
+    expect(dispatch).toHaveBeenCalledWith(add(mockedCharacter));
+  });
+
+  it('dispatches remove action when checkbox is unchecked', () => {
+    const dispatch = vi.spyOn(store, 'dispatch');
+
+    render(
+      <Provider store={store}>
+        <MemoryRouter>
+          <Card character={mockedCharacter} />
+        </MemoryRouter>
+      </Provider>
+    );
+
+    const checkbox = screen.getByRole('checkbox');
+    fireEvent.click(checkbox);
+    fireEvent.click(checkbox);
+
+    expect(dispatch).toHaveBeenCalledWith(remove(mockedCharacter));
   });
 });

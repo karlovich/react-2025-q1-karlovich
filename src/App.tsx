@@ -1,5 +1,5 @@
 import { Link, Outlet, Route, Routes } from 'react-router';
-import HomePage from './pages/HomePage';
+import HomePage from './pages/HomePage/HomePage';
 import { Page404 } from './pages/Page404/Page404';
 import { Header } from './components/Header/Header';
 import { Footer } from './components/Footer/Footer';
