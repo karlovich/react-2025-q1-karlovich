@@ -6,6 +6,8 @@ import { Footer } from './components/Footer/Footer';
 import { About } from './pages/About/About';
 import { InfoPanel } from './components/InfoPanel/InfoPanel';
 import { ToastMessage } from './components/ToastMessage/ToastMessage';
+import { useTheme } from './context/ThemeContext';
+
 const App = () => {
   return (
     <>
@@ -25,10 +27,14 @@ const App = () => {
 };
 
 const Layout = () => {
+  const { theme } = useTheme();
+
   return (
     <>
       <Header />
-      <main className="p-4 bg-white text-black">
+      <main
+        className={`${theme === 'dark-mode' ? 'bg-white text-black' : 'bg-sky-400 text-white'} p-4`}
+      >
         <Outlet />
       </main>
       <Footer />
@@ -38,8 +44,12 @@ const Layout = () => {
 };
 
 const Navigation = () => {
+  const { theme } = useTheme();
+
   return (
-    <nav className="bg-black text-white p-4 text-2xl font-bold flex gap-4 border-b-2 border-white">
+    <nav
+      className={`${theme === 'dark-mode' ? 'bg-black text-white' : 'bg-blue-200 text-cyan-900'} p-4 text-2xl font-bold flex gap-4 border-b-2 border-white`}
+    >
       <Link to="/" className="hover:text-gray-400">
         Home
       </Link>

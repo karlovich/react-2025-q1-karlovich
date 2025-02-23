@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useTheme } from '../../context/ThemeContext';
 
 interface SearchBarProps {
   searchTerm: string;
@@ -6,6 +7,7 @@ interface SearchBarProps {
 }
 
 export const SearchBar = ({ searchTerm, onSearch }: SearchBarProps) => {
+  const { theme } = useTheme();
   const [searchInput, setSearchInput] = useState(searchTerm);
 
   const onButtonClick = () => {
@@ -28,7 +30,7 @@ export const SearchBar = ({ searchTerm, onSearch }: SearchBarProps) => {
       />
       <button
         onClick={onButtonClick}
-        className="bg-black text-white p-2 rounded cursor-pointer hover:bg-gray-800"
+        className={`${theme === 'dark-mode' ? 'bg-slate-950 text-white hover:bg-slate-700' : 'bg-amber-200 text-black hover:bg-amber-100'} font-bold p-2 rounded cursor-pointer`}
       >
         Search
       </button>

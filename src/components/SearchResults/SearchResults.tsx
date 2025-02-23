@@ -5,6 +5,7 @@ import { Loader } from '../Loader/Loader';
 import { SearchFallback } from '../SearchFallback/SearchFallback';
 import { Pager } from '../Pager/Pager';
 import { useSearchCharactersQuery } from '../../services/charactersApi';
+import { useTheme } from '../../context/ThemeContext';
 
 interface SearchResultsProps {
   searchTerm: string;
@@ -16,6 +17,8 @@ export const SearchResults = ({
   showError,
 }: SearchResultsProps) => {
   const [searchParams] = useSearchParams();
+  const { theme } = useTheme();
+
   const { data, error, isLoading, isFetching } = useSearchCharactersQuery({
     searchTerm: searchTerm,
     page: searchParams.get('page') || '',
@@ -36,7 +39,9 @@ export const SearchResults = ({
   return (
     <div className="p-4">
       <div className="mb-4">
-        <h1 className="text-xl font-bold text-black">
+        <h1
+          className={`${theme === 'dark-mode' ? 'text-black' : 'text-cyan-900'} text-xl font-bold `}
+        >
           Search of the Galactic Republic found {data.count} creatures
         </h1>
       </div>

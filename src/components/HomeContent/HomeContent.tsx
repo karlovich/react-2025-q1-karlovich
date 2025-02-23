@@ -6,10 +6,12 @@ import { ErrorBoundary } from '../ErrorBoundary';
 import { SearchFallback } from '../SearchFallback/SearchFallback';
 import { useLocalStorage } from '../../hooks/useLocalStorage';
 import { Outlet, useParams } from 'react-router';
+import { useTheme } from '../../context/ThemeContext';
 
 export const HomeContent = () => {
   const [searchTerm, setSearchTerm] = useLocalStorage();
   const [raiseError, setRaiseError] = useState(false);
+  const { theme } = useTheme();
   const [infoPanelVisibility, setInfoPanelVisibility] = useState(false);
   const { id } = useParams();
   const onSearch = (text: string) => {
@@ -40,7 +42,7 @@ export const HomeContent = () => {
         </div>
       </div>
       <div
-        className={`bg-gray-200 transition-width duration-300 ${infoPanelVisibility ? 'w-1/3 p-2' : 'w-0'}`}
+        className={`${theme === 'dark-mode' ? 'bg-gray-200' : 'bg-sky-600'} p-4 transition-width duration-300 ${infoPanelVisibility ? 'w-1/3 p-2' : 'w-0'}`}
         data-testid="info-panel-container"
       >
         <Outlet />

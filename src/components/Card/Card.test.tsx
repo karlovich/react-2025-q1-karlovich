@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router';
 import { Provider } from 'react-redux';
 import { store } from '../../app/store';
 import { add, remove } from '../../features/cardStoreSlice';
+import { ThemeProvider } from '../../context/ThemeContext';
 
 vi.mock('react-router', async (importOriginal) => {
   const actual = (await importOriginal()) as typeof import('react-router'); // Assert type
@@ -36,7 +37,9 @@ describe('Card Component', () => {
     render(
       <MemoryRouter>
         <Provider store={store}>
-          <Card character={mockedCharacter} />
+          <ThemeProvider>
+            <Card character={mockedCharacter} />
+          </ThemeProvider>
         </Provider>
       </MemoryRouter>
     );
@@ -59,7 +62,9 @@ describe('Card Component', () => {
     render(
       <Provider store={store}>
         <MemoryRouter>
-          <Card character={mockedCharacter} />
+          <ThemeProvider>
+            <Card character={mockedCharacter} />
+          </ThemeProvider>
         </MemoryRouter>
       </Provider>
     );
@@ -76,7 +81,9 @@ describe('Card Component', () => {
     render(
       <Provider store={store}>
         <MemoryRouter>
-          <Card character={mockedCharacter} />
+          <ThemeProvider>
+            <Card character={mockedCharacter} />
+          </ThemeProvider>
         </MemoryRouter>
       </Provider>
     );

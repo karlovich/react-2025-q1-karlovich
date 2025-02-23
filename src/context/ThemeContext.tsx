@@ -11,13 +11,13 @@ interface ThemeContextType {
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 export const ThemeProvider = ({ children }: Props) => {
-  const [theme, setTheme] = useState('bw');
+  const [theme, setTheme] = useState('dark-mode');
   return (
     <ThemeContext.Provider
       value={{
         theme,
         toggleTheme: () => {
-          setTheme(theme === 'bw' ? 'color' : 'bw');
+          setTheme(theme === 'dark-mode' ? 'color-mode' : 'dark-mode');
         },
       }}
     >

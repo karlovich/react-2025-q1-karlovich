@@ -5,12 +5,15 @@ import { MemoryRouter, Route, Routes } from 'react-router';
 import { HomeContent } from './HomeContent';
 import { Provider } from 'react-redux';
 import { store } from '../../app/store';
+import { ThemeProvider } from '../../context/ThemeContext';
 
 describe('HomeContent Component', () => {
   it('renders scheleton correctly', () => {
     render(
       <MemoryRouter>
-        <HomeContent />
+        <ThemeProvider>
+          <HomeContent />
+        </ThemeProvider>
       </MemoryRouter>
     );
 
@@ -24,9 +27,11 @@ describe('HomeContent Component', () => {
     render(
       <MemoryRouter initialEntries={['/character/1']}>
         <Provider store={store}>
-          <Routes>
-            <Route path="/character/:id" element={<HomeContent />} />
-          </Routes>
+          <ThemeProvider>
+            <Routes>
+              <Route path="/character/:id" element={<HomeContent />} />
+            </Routes>
+          </ThemeProvider>
         </Provider>
       </MemoryRouter>
     );

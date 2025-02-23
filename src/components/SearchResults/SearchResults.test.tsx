@@ -5,6 +5,7 @@ import { MemoryRouter } from 'react-router';
 import { SearchResults } from './SearchResults';
 import { Provider } from 'react-redux';
 import { store } from '../../app/store';
+import { ThemeProvider } from '../../context/ThemeContext';
 
 vi.mock('react-router', async (importOriginal) => {
   const actual = (await importOriginal()) as typeof import('react-router');
@@ -19,7 +20,9 @@ describe('SearchResults Component', () => {
     render(
       <MemoryRouter>
         <Provider store={store}>
-          <SearchResults searchTerm="Luke" showError={false} />
+          <ThemeProvider>
+            <SearchResults searchTerm="Luke" showError={false} />
+          </ThemeProvider>
         </Provider>
       </MemoryRouter>
     );
@@ -31,7 +34,9 @@ describe('SearchResults Component', () => {
     render(
       <MemoryRouter>
         <Provider store={store}>
-          <SearchResults searchTerm="Luke" showError={false} />
+          <ThemeProvider>
+            <SearchResults searchTerm="Luke" showError={false} />
+          </ThemeProvider>
         </Provider>
       </MemoryRouter>
     );
@@ -49,7 +54,9 @@ describe('SearchResults Component', () => {
     render(
       <MemoryRouter>
         <Provider store={store}>
-          <SearchResults searchTerm="test" showError={false} />
+          <ThemeProvider>
+            <SearchResults searchTerm="test" showError={false} />
+          </ThemeProvider>
         </Provider>
       </MemoryRouter>
     );
@@ -61,28 +68,14 @@ describe('SearchResults Component', () => {
     });
   });
 
-  // it('displays error fallback UI when an error occurs', async () => {
-  //   fetchMock.mockRejectedValueOnce(new Error('API Error'));
-
-  //   render(
-  //     <MemoryRouter>
-  //       <Provider store={store}>
-  //         <SearchResults searchTerm="Error" showError={false} />
-  //       </Provider>
-  //     </MemoryRouter>
-  //   );
-
-  //   await waitFor(() => {
-  //     expect(screen.getByTestId('test-search-fallback')).toBeInTheDocument();
-  //   });
-  // });
-
   it('throws an error when showError is true', () => {
     expect(() => {
       render(
         <MemoryRouter>
           <Provider store={store}>
-            <SearchResults searchTerm="Luke" showError={true} />
+            <ThemeProvider>
+              <SearchResults searchTerm="Luke" showError={true} />
+            </ThemeProvider>
           </Provider>
         </MemoryRouter>
       );
