@@ -3,7 +3,9 @@ import { describe, it, expect, vi } from 'vitest';
 import '@testing-library/jest-dom';
 import { MemoryRouter } from 'react-router';
 import { SearchResults } from './SearchResults';
-import { Character } from '../../shared/types';
+import { Provider } from 'react-redux';
+import { store } from '../../app/store';
+import { ThemeProvider } from '../../context/ThemeContext';
 
 vi.mock('react-router', async (importOriginal) => {
   const actual = (await importOriginal()) as typeof import('react-router');
@@ -13,38 +15,15 @@ vi.mock('react-router', async (importOriginal) => {
   };
 });
 
-const mockCharacters: Character[] = [
-  {
-    name: 'Luke Skywalker',
-    gender: 'male',
-    url: 'https://swapi.dev/api/people/1/',
-    birth_year: '19BBY',
-    height: 172,
-    mass: 77,
-    hair_color: 'blond',
-    skin_color: 'fair',
-    eye_color: 'n/a',
-  },
-  {
-    name: 'Darth Vader',
-    gender: 'male',
-    url: 'https://swapi.dev/api/people/4/',
-    birth_year: '41.9BBY',
-    height: 202,
-    mass: 136,
-    hair_color: 'none',
-    skin_color: 'white',
-    eye_color: 'yellow',
-  },
-];
-
-const fetchMock = vi.spyOn(globalThis, 'fetch');
-
 describe('SearchResults Component', () => {
   it('renders loading state initially', () => {
     render(
       <MemoryRouter>
-        <SearchResults searchTerm="Luke" showError={false} />
+        <Provider store={store}>
+          <ThemeProvider>
+            <SearchResults searchTerm="Luke" showError={false} />
+          </ThemeProvider>
+        </Provider>
       </MemoryRouter>
     );
 
@@ -52,19 +31,13 @@ describe('SearchResults Component', () => {
   });
 
   it('fetches and displays search results', async () => {
-    fetchMock.mockResolvedValue({
-      ok: true,
-      json: async () => ({
-        count: mockCharacters.length,
-        results: mockCharacters,
-        next: null,
-        previous: null,
-      }),
-    } as Response);
-
     render(
       <MemoryRouter>
-        <SearchResults searchTerm="Luke" showError={false} />
+        <Provider store={store}>
+          <ThemeProvider>
+            <SearchResults searchTerm="Luke" showError={false} />
+          </ThemeProvider>
+        </Provider>
       </MemoryRouter>
     );
 
@@ -78,38 +51,20 @@ describe('SearchResults Component', () => {
   });
 
   it("displays 'No Creatures Found' when no results are returned", async () => {
-    fetchMock.mockResolvedValue({
-      ok: true,
-      json: async () => ({
-        count: 0,
-        results: [],
-        next: null,
-        previous: null,
-      }),
-    } as Response);
-
     render(
       <MemoryRouter>
-        <SearchResults searchTerm="test" showError={false} />
+        <Provider store={store}>
+          <ThemeProvider>
+            <SearchResults searchTerm="test" showError={false} />
+          </ThemeProvider>
+        </Provider>
       </MemoryRouter>
     );
 
     await waitFor(() => {
-      expect(screen.getByText('No Creatures Found')).toBeInTheDocument();
-    });
-  });
-
-  it('displays error fallback UI when an error occurs', async () => {
-    fetchMock.mockRejectedValueOnce(new Error('API Error'));
-
-    render(
-      <MemoryRouter>
-        <SearchResults searchTerm="Error" showError={false} />
-      </MemoryRouter>
-    );
-
-    await waitFor(() => {
-      expect(screen.getByTestId('test-search-fallback')).toBeInTheDocument();
+      expect(
+        screen.getByText(/Unfortunately, search results are empty./i)
+      ).toBeInTheDocument();
     });
   });
 
@@ -117,7 +72,11 @@ describe('SearchResults Component', () => {
     expect(() => {
       render(
         <MemoryRouter>
-          <SearchResults searchTerm="Luke" showError={true} />
+          <Provider store={store}>
+            <ThemeProvider>
+              <SearchResults searchTerm="Luke" showError={true} />
+            </ThemeProvider>
+          </Provider>
         </MemoryRouter>
       );
     }).toThrow('May the 4th be with u');

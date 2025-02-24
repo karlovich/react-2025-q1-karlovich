@@ -1,34 +1,24 @@
-import { useEffect, useState } from 'react';
-import { useParams } from 'react-router';
-import { Character } from '../../shared/types';
+import { useParams, useNavigate, useLocation } from 'react-router';
 import { Loader } from '../Loader/Loader';
+import { useGetCharacterByIdQuery } from '../../services/charactersApi';
+import { useTheme } from '../../context/ThemeContext';
 
 export const InfoPanel = () => {
-  const [loading, setLoading] = useState(true);
   const { id } = useParams();
-  const [character, setCharacter] = useState<Character>();
-
-  const fetchData = async (id: string) => {
-    try {
-      setLoading(true);
-      const response = await fetch(`https://swapi.dev/api/people/${id.trim()}`);
-
-      const data = await response.json();
-      setCharacter(data);
-      setLoading(false);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  useEffect(() => {
-    if (id) {
-      fetchData(id);
-    }
-  }, [id]);
-
-  if (loading) {
-    return <Loader />;
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { theme } = useTheme();
+  if (id === undefined) {
+    throw Error('There is no valid id in query string');
+  }
+  const {
+    data: character,
+    error,
+    isLoading,
+    isFetching,
+  } = useGetCharacterByIdQuery(id);
+  if (error) {
+    console.error(error);
   }
 
   const characterDetails = [
@@ -43,8 +33,21 @@ export const InfoPanel = () => {
     { label: 'Eye Color', value: character?.eye_color },
   ];
 
+  if (isLoading || isFetching) return <Loader />;
+
+  const handleClose = () => {
+    const searchParams = new URLSearchParams(location.search);
+    navigate(`/?${searchParams.toString()}`);
+  };
+
   return (
-    <>
+    <div className="relative p-4">
+      <button
+        onClick={handleClose}
+        className={`${theme === 'dark-mode' ? 'bg-black text-white' : 'bg-amber-200 text-black'} absolute top-1 right-1 font-bold px-2 cursor-pointer`}
+      >
+        X
+      </button>
       {characterDetails.map((detail) => (
         <div key={detail.label}>
           <span className="font-bold">
@@ -52,6 +55,6 @@ export const InfoPanel = () => {
           </span>
         </div>
       ))}
-    </>
+    </div>
   );
 };

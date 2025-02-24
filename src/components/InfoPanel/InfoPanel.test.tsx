@@ -3,7 +3,9 @@ import { describe, it, expect, vi } from 'vitest';
 import '@testing-library/jest-dom';
 import { MemoryRouter, Route, Routes } from 'react-router';
 import { InfoPanel } from './InfoPanel';
-import { Character } from '../../shared/types';
+import { Provider } from 'react-redux';
+import { store } from '../../app/store';
+import { ThemeProvider } from '../../context/ThemeContext';
 
 vi.mock('react-router', async (importOriginal) => {
   const actual = (await importOriginal()) as typeof import('react-router');
@@ -13,27 +15,17 @@ vi.mock('react-router', async (importOriginal) => {
   };
 });
 
-const mockedCharacter: Character = {
-  name: 'Luke Skywalker',
-  gender: 'male',
-  url: 'https://swapi.dev/api/people/1/',
-  birth_year: '19BBY',
-  height: 172,
-  mass: 77,
-  hair_color: 'blond',
-  skin_color: 'fair',
-  eye_color: 'n/a',
-};
-
-const fetchMock = vi.spyOn(globalThis, 'fetch');
-
 describe('InfoPanel Component', () => {
   it('renders loading state initially', () => {
     render(
       <MemoryRouter initialEntries={['/character/1']}>
-        <Routes>
-          <Route path="/character/:id" element={<InfoPanel />} />
-        </Routes>
+        <Provider store={store}>
+          <ThemeProvider>
+            <Routes>
+              <Route path="/character/:id" element={<InfoPanel />} />
+            </Routes>
+          </ThemeProvider>
+        </Provider>
       </MemoryRouter>
     );
 
@@ -41,16 +33,15 @@ describe('InfoPanel Component', () => {
   });
 
   it('fetches and displays character details', async () => {
-    fetchMock.mockResolvedValue({
-      ok: true,
-      json: async () => mockedCharacter,
-    } as Response);
-
     render(
       <MemoryRouter initialEntries={['/character/1']}>
-        <Routes>
-          <Route path="/character/:id" element={<InfoPanel />} />
-        </Routes>
+        <Provider store={store}>
+          <ThemeProvider>
+            <Routes>
+              <Route path="/character/:id" element={<InfoPanel />} />
+            </Routes>
+          </ThemeProvider>
+        </Provider>
       </MemoryRouter>
     );
 

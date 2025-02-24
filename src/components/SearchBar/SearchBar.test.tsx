@@ -2,23 +2,36 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import { describe, it, expect, vi } from 'vitest';
 import '@testing-library/jest-dom';
 import { SearchBar } from './SearchBar';
+import { ThemeProvider } from '../../context/ThemeContext';
 
 describe('SearchBar Component', () => {
   it('renders input field and search button', () => {
-    render(<SearchBar searchTerm="" onSearch={vi.fn()} />);
+    render(
+      <ThemeProvider>
+        <SearchBar searchTerm="" onSearch={vi.fn()} />
+      </ThemeProvider>
+    );
 
     expect(screen.getByPlaceholderText('Search...')).toBeInTheDocument();
     expect(screen.getByText('Search')).toBeInTheDocument();
   });
 
   it('displays initial search term in the input field', () => {
-    render(<SearchBar searchTerm="Luke" onSearch={vi.fn()} />);
+    render(
+      <ThemeProvider>
+        <SearchBar searchTerm="Luke" onSearch={vi.fn()} />
+      </ThemeProvider>
+    );
 
     expect(screen.getByDisplayValue('Luke')).toBeInTheDocument();
   });
 
   it('updates input value when typing', () => {
-    render(<SearchBar searchTerm="" onSearch={vi.fn()} />);
+    render(
+      <ThemeProvider>
+        <SearchBar searchTerm="" onSearch={vi.fn()} />
+      </ThemeProvider>
+    );
 
     const input = screen.getByPlaceholderText('Search...');
     fireEvent.change(input, { target: { value: 'Vader' } });
@@ -28,7 +41,11 @@ describe('SearchBar Component', () => {
 
   it('calls onSearch with input value when search button is clicked', () => {
     const onSearchMock = vi.fn();
-    render(<SearchBar searchTerm="" onSearch={onSearchMock} />);
+    render(
+      <ThemeProvider>
+        <SearchBar searchTerm="" onSearch={onSearchMock} />
+      </ThemeProvider>
+    );
 
     const input = screen.getByPlaceholderText('Search...');
     const button = screen.getByText('Search');
@@ -41,7 +58,11 @@ describe('SearchBar Component', () => {
 
   it('calls onSearch with the initial value when button is clicked without typing', () => {
     const onSearchMock = vi.fn();
-    render(<SearchBar searchTerm="Leia" onSearch={onSearchMock} />);
+    render(
+      <ThemeProvider>
+        <SearchBar searchTerm="Leia" onSearch={onSearchMock} />
+      </ThemeProvider>
+    );
 
     fireEvent.click(screen.getByText('Search'));
 
