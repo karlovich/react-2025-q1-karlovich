@@ -34,10 +34,10 @@ describe('Pager Component', () => {
     );
 
     expect(screen.getByText('Prev')).toHaveClass(
-      'hover:bg-gray-400 bg-gray-400'
+      'hover:bg-zinc-400 bg-zinc-400'
     );
     expect(screen.getByText('Next')).toHaveClass(
-      'hover:bg-gray-400 bg-gray-400'
+      'hover:bg-zinc-400 bg-zinc-400'
     );
   });
 
@@ -55,7 +55,7 @@ describe('Pager Component', () => {
 
     expect(screen.getByText('Prev')).toHaveClass('cursor-pointer');
     expect(screen.getByText('Next')).toHaveClass(
-      'hover:bg-gray-400 bg-gray-400'
+      'hover:bg-zinc-400 bg-zinc-400'
     );
   });
 
@@ -73,7 +73,7 @@ describe('Pager Component', () => {
 
     expect(screen.getByText('Next')).toHaveClass('cursor-pointer');
     expect(screen.getByText('Prev')).toHaveClass(
-      'hover:bg-gray-400 bg-gray-400'
+      'hover:bg-zinc-400 bg-zinc-400'
     );
   });
 
