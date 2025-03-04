@@ -1,4 +1,4 @@
-import { useSearchParams } from 'react-router';
+// import { useSearchParams } from 'react-router';
 import { useTheme } from '../../context/ThemeContext';
 
 interface PagerProps {
@@ -8,12 +8,12 @@ interface PagerProps {
 
 export const Pager = ({ prevUrl, nextUrl }: PagerProps) => {
   const { theme } = useTheme();
-  const [, setSearchParams] = useSearchParams();
+  // const [, setSearchParams] = useSearchParams();
 
   const onMovePage = (url: string | null) => {
     if (url) {
-      const page = url.split('page=')[1];
-      setSearchParams({ page: page });
+      // const page = url.split('page=')[1];
+      // setSearchParams({ page: page });
     }
   };
 

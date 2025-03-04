@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { useSearchParams } from 'react-router';
+// import { useSearchParams } from 'react-router';
 import { Card } from '../Card/Card';
 import { Loader } from '../Loader/Loader';
 import { SearchFallback } from '../SearchFallback/SearchFallback';
@@ -16,12 +16,13 @@ export const SearchResults = ({
   searchTerm,
   showError,
 }: SearchResultsProps) => {
-  const [searchParams] = useSearchParams();
+  // const [searchParams] = useSearchParams();
   const { theme } = useTheme();
 
   const { data, error, isLoading, isFetching } = useSearchCharactersQuery({
     searchTerm: searchTerm,
-    page: searchParams.get('page') || '',
+    // page: searchParams.get('page') || '',
+    page: '',
   });
 
   useEffect(() => {

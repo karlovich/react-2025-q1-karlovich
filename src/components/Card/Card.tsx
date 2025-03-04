@@ -1,5 +1,5 @@
 import { Character } from '../../shared/types';
-import { useNavigate, useLocation } from 'react-router';
+// import { useNavigate, useLocation } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
 import { add, remove } from '../../features/cardStoreSlice';
 import { RootState } from '../../app/store';
@@ -10,8 +10,8 @@ interface CardProps {
 }
 
 export const Card = ({ character }: CardProps) => {
-  const navigate = useNavigate();
-  const location = useLocation();
+  // const navigate = useNavigate();
+  // const location = useLocation();
   const { theme } = useTheme();
   const { name, gender, url } = character;
   const getId = (url: string) => {
@@ -29,7 +29,7 @@ export const Card = ({ character }: CardProps) => {
   const onClick = (url: string) => {
     const id = (url && url.split('/')[5]) || '';
     if (id) {
-      navigate(`/characters/${id}` + location.search);
+      // navigate(`/characters/${id}` + location.search);
     }
   };
 
