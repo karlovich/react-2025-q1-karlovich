@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import { describe, it, expect } from 'vitest';
 import '@testing-library/jest-dom';
-import { About } from './About';
+import { About } from '../about';
 import React from 'react';
 
 describe('Renders About Correctly', () => {

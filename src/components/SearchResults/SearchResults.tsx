@@ -1,29 +1,32 @@
 import { useEffect } from 'react';
 // import { useSearchParams } from 'react-router';
 import { Card } from '../Card/Card';
-import { Loader } from '../Loader/Loader';
+// import { Loader } from '../Loader/Loader';
 import { SearchFallback } from '../SearchFallback/SearchFallback';
 import { Pager } from '../Pager/Pager';
-import { useSearchCharactersQuery } from '../../services/charactersApi';
+// import { useSearchCharactersQuery } from '../../services/charactersApi';
 import { useTheme } from '../../context/ThemeContext';
+import { CharacterSearchResults } from '@/shared/types';
 
 interface SearchResultsProps {
   searchTerm: string;
   showError: boolean;
+  data: CharacterSearchResults;
 }
 
 export const SearchResults = ({
-  searchTerm,
+  // searchTerm,
   showError,
+  data,
 }: SearchResultsProps) => {
   // const [searchParams] = useSearchParams();
   const { theme } = useTheme();
 
-  const { data, error, isLoading, isFetching } = useSearchCharactersQuery({
-    searchTerm: searchTerm,
-    // page: searchParams.get('page') || '',
-    page: '',
-  });
+  // const { data, error, isLoading, isFetching } = useSearchCharactersQuery({
+  //   searchTerm: searchTerm,
+  //   // page: searchParams.get('page') || '',
+  //   page: '',
+  // });
 
   useEffect(() => {
     if (showError) {
@@ -31,9 +34,9 @@ export const SearchResults = ({
     }
   }, [showError]);
 
-  if (isLoading || isFetching) return <Loader />;
+  // if (isLoading || isFetching) return <Loader />;
 
-  if (error || data === undefined || data.count === 0) {
+  if (data === undefined || data.count === 0) {
     return <SearchFallback />;
   }
 

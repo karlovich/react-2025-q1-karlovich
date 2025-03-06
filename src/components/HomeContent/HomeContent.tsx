@@ -8,13 +8,23 @@ import { SearchFallback } from '../SearchFallback/SearchFallback';
 // import { Outlet, useParams, useNavigate, useLocation } from 'react-router';
 import { useTheme } from '../../context/ThemeContext';
 import { InfoPanel } from '../InfoPanel/InfoPanel';
+import { Character, CharacterSearchResults } from '@/shared/types';
 
-export const HomeContent = () => {
+interface Props {
+  charactersData: CharacterSearchResults;
+  infoPanelVisibility?: boolean;
+  character?: Character;
+}
+
+export const HomeContent = ({
+  charactersData,
+  infoPanelVisibility = false,
+  character,
+}: Props) => {
   // const [searchTerm, setSearchTerm] = useLocalStorage();
   const [searchTerm, setSearchTerm] = useState('');
   const [raiseError, setRaiseError] = useState(false);
   const { theme } = useTheme();
-  const [infoPanelVisibility] = useState(false);
   // const { id } = useParams();
   // const navigate = useNavigate();
   // const location = useLocation();
@@ -45,7 +55,11 @@ export const HomeContent = () => {
       >
         <SearchBar searchTerm={searchTerm} onSearch={onSearch} />
         <ErrorBoundary fallbackUI={<SearchFallback />} tryAgain={!raiseError}>
-          <SearchResults searchTerm={searchTerm} showError={raiseError} />
+          <SearchResults
+            searchTerm={searchTerm}
+            showError={raiseError}
+            data={charactersData}
+          />
         </ErrorBoundary>
         <div className="flex p-4 justify-end">
           <ErrorButton onRaiseError={onRaiseError} />
@@ -55,7 +69,7 @@ export const HomeContent = () => {
         className={`${theme === 'dark-mode' ? 'bg-gray-200' : 'bg-sky-600'} transition-width duration-300 ${infoPanelVisibility ? 'w-1/3' : 'w-0'}`}
         data-testid="info-panel-container"
       >
-        <InfoPanel />
+        <InfoPanel character={character} />
       </div>
     </div>
   );

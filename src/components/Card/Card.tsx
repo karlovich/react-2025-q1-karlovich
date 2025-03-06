@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { add, remove } from '../../features/cardStoreSlice';
 import { RootState } from '../../store/store';
 import { useTheme } from '../../context/ThemeContext';
+import { useRouter } from 'next/router';
 
 interface CardProps {
   character: Character;
@@ -13,6 +14,7 @@ export const Card = ({ character }: CardProps) => {
   // const navigate = useNavigate();
   // const location = useLocation();
   const { theme } = useTheme();
+  const router = useRouter();
   const { name, gender, url } = character;
   const getId = (url: string) => {
     const id = (url && url.split('/')[5]) || '';
@@ -29,7 +31,9 @@ export const Card = ({ character }: CardProps) => {
   const onClick = (url: string) => {
     const id = (url && url.split('/')[5]) || '';
     if (id) {
-      // navigate(`/characters/${id}` + location.search);
+      router.push({
+        query: { ...router.query, id },
+      });
     }
   };
 

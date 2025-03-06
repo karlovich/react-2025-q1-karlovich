@@ -1,30 +1,35 @@
 // import { useParams, useNavigate, useLocation } from 'react-router';
-import { Loader } from '../Loader/Loader';
-import { useGetCharacterByIdQuery } from '../../services/charactersApi';
+// import { Loader } from '../Loader/Loader';
+// import { useGetCharacterByIdQuery } from '../../services/charactersApi';
 import { useTheme } from '../../context/ThemeContext';
-import { useState } from 'react';
+// import { useState } from 'react';
+import { Character } from '@/shared/types';
 
-export const InfoPanel = () => {
+interface Props {
+  character?: Character;
+}
+
+export const InfoPanel = ({ character }: Props) => {
   // const { id } = useParams();
   // const navigate = useNavigate();
   // const location = useLocation();
   const { theme } = useTheme();
-  const [id] = useState('1');
-  if (id === undefined) {
-    throw Error('There is no valid id in query string');
-  }
-  const {
-    data: character,
-    error,
-    isLoading,
-    isFetching,
-  } = useGetCharacterByIdQuery(id);
-  if (error) {
-    console.error(error);
-  }
+  // const [id] = useState('1');
+  // if (id === undefined) {
+  //   throw Error('There is no valid id in query string');
+  // }
+  // const {
+  //   data: character,
+  //   error,
+  //   isLoading,
+  //   isFetching,
+  // } = useGetCharacterByIdQuery(id);
+  // if (error) {
+  //   console.error(error);
+  // }
 
   const characterDetails = [
-    { label: 'Galaxy ID', value: id },
+    { label: 'Galaxy URL', value: character?.url },
     { label: 'Name', value: character?.name },
     { label: 'Gender', value: character?.gender },
     { label: 'Birth Year', value: character?.birth_year },
@@ -35,7 +40,7 @@ export const InfoPanel = () => {
     { label: 'Eye Color', value: character?.eye_color },
   ];
 
-  if (isLoading || isFetching) return <Loader />;
+  // if (isLoading || isFetching) return <Loader />;
 
   const handleClose = () => {
     // const searchParams = new URLSearchParams(location.search);
