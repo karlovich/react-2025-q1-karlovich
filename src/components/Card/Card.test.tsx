@@ -6,7 +6,7 @@ import { Card } from './Card';
 import { Character } from '../../shared/types';
 import { useNavigate } from 'react-router';
 import { Provider } from 'react-redux';
-import { store } from '../../app/store';
+import { store } from '../../store/store';
 import { add, remove } from '../../features/cardStoreSlice';
 import { ThemeProvider } from '../../context/ThemeContext';
 

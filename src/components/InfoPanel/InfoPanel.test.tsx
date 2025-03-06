@@ -4,7 +4,7 @@ import '@testing-library/jest-dom';
 import { MemoryRouter, Route, Routes } from 'react-router';
 import { InfoPanel } from './InfoPanel';
 import { Provider } from 'react-redux';
-import { store } from '../../app/store';
+import { store } from '../../store/store';
 import { ThemeProvider } from '../../context/ThemeContext';
 
 vi.mock('react-router', async (importOriginal) => {

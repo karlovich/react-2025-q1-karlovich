@@ -4,7 +4,7 @@ import '@testing-library/jest-dom';
 import { MemoryRouter, Route, Routes } from 'react-router';
 import { HomeContent } from './HomeContent';
 import { Provider } from 'react-redux';
-import { store } from '../../app/store';
+import { store } from '../../store/store';
 import { ThemeProvider } from '../../context/ThemeContext';
 
 describe('HomeContent Component', () => {

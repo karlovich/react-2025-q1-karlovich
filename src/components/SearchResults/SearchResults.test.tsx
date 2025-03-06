@@ -4,7 +4,7 @@ import '@testing-library/jest-dom';
 import { MemoryRouter } from 'react-router';
 import { SearchResults } from './SearchResults';
 import { Provider } from 'react-redux';
-import { store } from '../../app/store';
+import { store } from '../../store/store';
 import { ThemeProvider } from '../../context/ThemeContext';
 
 vi.mock('react-router', async (importOriginal) => {

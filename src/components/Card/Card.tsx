@@ -2,7 +2,7 @@ import { Character } from '../../shared/types';
 // import { useNavigate, useLocation } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
 import { add, remove } from '../../features/cardStoreSlice';
-import { RootState } from '../../app/store';
+import { RootState } from '../../store/store';
 import { useTheme } from '../../context/ThemeContext';
 
 interface CardProps {

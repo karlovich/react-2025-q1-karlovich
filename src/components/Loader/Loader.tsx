@@ -1,4 +1,4 @@
-import './Loader.css';
+// import './Loader.css';
 import fadeCircles from '../../assets/fade-stagger-circles.svg';
 
 export const Loader = () => {

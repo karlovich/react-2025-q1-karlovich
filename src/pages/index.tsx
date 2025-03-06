@@ -1,19 +1,14 @@
-import { HomeContent } from '../components/HomeContent/HomeContent';
-import { ThemeProvider } from '../context/ThemeContext';
-import { store } from '../app/store';
+import { HomeContent } from '@/components/HomeContent/HomeContent';
+import { ThemeProvider } from '@/context/ThemeContext';
+import { store } from '@/store/store';
 import { Provider } from 'react-redux';
 
-const Index = () => {
+export default function Home() {
   return (
-    <>
-      <div>Hellow World</div>
-      <Provider store={store}>
-        <ThemeProvider>
-          <HomeContent />
-        </ThemeProvider>
-      </Provider>
-    </>
+    <Provider store={store}>
+      <ThemeProvider>
+        <HomeContent />
+      </ThemeProvider>
+    </Provider>
   );
-};
-
-export default Index;
+}
