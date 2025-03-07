@@ -7,7 +7,6 @@ export const getServerSideProps = (async (context) => {
   let page = '1';
   if (context.query && typeof context.query.id === 'string') {
     id = context.query.id;
-    console.log('context.query characters id:', id);
   }
   if (context.query && typeof context.query.page === 'string') {
     page = context.query.page;

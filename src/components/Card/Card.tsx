@@ -31,9 +31,16 @@ export const Card = ({ character }: CardProps) => {
   const onClick = (url: string) => {
     const id = (url && url.split('/')[5]) || '';
     if (id) {
-      router.push({
-        query: { ...router.query, id },
-      });
+      if (router.query.id) {
+        router.push({
+          query: { ...router.query, id },
+        });
+      } else {
+        router.push({
+          pathname: `/characters/${id}`,
+          query: router.query,
+        });
+      }
     }
   };
 
@@ -61,6 +68,7 @@ export const Card = ({ character }: CardProps) => {
             type="checkbox"
             checked={checked}
             onChange={(e) => onChange(e)}
+            onClick={(e) => e.stopPropagation()}
             value=""
             className={`${theme === 'dark-mode' ? 'focus:ring-blue-500 bg-gray-100 border-gray-300' : 'focus:ring-blue-600 ring-offset-gray-800 bg-gray-700 border-gray-600'} w-4 h-4 text-blue-600 rounded-sm  focus:ring-2`}
           />

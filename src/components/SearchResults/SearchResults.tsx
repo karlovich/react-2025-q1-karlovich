@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 // import { useSearchParams } from 'react-router';
 import { Card } from '../Card/Card';
 // import { Loader } from '../Loader/Loader';
@@ -7,6 +7,8 @@ import { Pager } from '../Pager/Pager';
 // import { useSearchCharactersQuery } from '../../services/charactersApi';
 import { useTheme } from '../../context/ThemeContext';
 import { CharacterSearchResults } from '@/shared/types';
+import { useRouter } from 'next/router';
+import { Loader } from '../Loader/Loader';
 
 interface SearchResultsProps {
   searchTerm: string;
@@ -34,7 +36,28 @@ export const SearchResults = ({
     }
   }, [showError]);
 
-  // if (isLoading || isFetching) return <Loader />;
+  const router = useRouter();
+  const [loading, setLoading] = useState(false);
+  useEffect(() => {
+    const onChangeStart = (newUrl: string) => {
+      const newPage = newUrl.match(/[?&]page=([^&]+)/)?.[1] || null;
+      const currentPage = router.query.page || null;
+
+      if (newPage !== currentPage) {
+        setLoading(true);
+      }
+    };
+    const onChangeComplete = () => setLoading(false);
+    router.events.on('routeChangeStart', onChangeStart);
+    router.events.on('routeChangeComplete', onChangeComplete);
+
+    return () => {
+      router.events.off('routeChangeStart', onChangeStart);
+      router.events.off('routeChangeComplete', onChangeComplete);
+    };
+  }, []);
+
+  if (loading) return <Loader />;
 
   if (data === undefined || data.count === 0) {
     return <SearchFallback />;

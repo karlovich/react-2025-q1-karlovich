@@ -1,9 +1,12 @@
 // import { useParams, useNavigate, useLocation } from 'react-router';
 // import { Loader } from '../Loader/Loader';
 // import { useGetCharacterByIdQuery } from '../../services/charactersApi';
+import { useEffect, useState } from 'react';
 import { useTheme } from '../../context/ThemeContext';
 // import { useState } from 'react';
 import { Character } from '@/shared/types';
+import { useRouter } from 'next/router';
+import { Loader } from '../Loader/Loader';
 
 interface Props {
   character?: Character;
@@ -40,14 +43,39 @@ export const InfoPanel = ({ character }: Props) => {
     { label: 'Eye Color', value: character?.eye_color },
   ];
 
-  // if (isLoading || isFetching) return <Loader />;
+  const router = useRouter();
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    const onChangeStart = (newUrl: string) => {
+      console.log('newId', newUrl);
+      const newId = newUrl.match(/characters\/([^?]+)/)?.[1] || null;
+      const currentId = router.query.id || null;
+      console.log('newId', newId);
+      console.log('currentId', currentId);
+      if (newId !== currentId) {
+        setLoading(true);
+      }
+    };
+    const onChangeComplete = () => setLoading(false);
+
+    router.events.on('routeChangeStart', onChangeStart);
+    router.events.on('routeChangeComplete', onChangeComplete);
+
+    return () => {
+      router.events.off('routeChangeStart', onChangeStart);
+      router.events.off('routeChangeComplete', onChangeComplete);
+    };
+  }, []);
+
+  if (loading) return <Loader />;
 
   const handleClose = () => {
     // const searchParams = new URLSearchParams(location.search);
     // navigate(`/?${searchParams.toString()}`);
   };
 
-  return (
+  return character ? (
     <div className="relative p-4">
       <button
         onClick={handleClose}
@@ -63,5 +91,5 @@ export const InfoPanel = ({ character }: Props) => {
         </div>
       ))}
     </div>
-  );
+  ) : null;
 };
