@@ -43,7 +43,10 @@ export const SearchResults = ({
       const newPage = newUrl.match(/[?&]page=([^&]+)/)?.[1] || null;
       const currentPage = router.query.page || null;
 
-      if (newPage !== currentPage) {
+      const newSearch = newUrl.match(/[?&]search=([^&]+)/)?.[1] || null;
+      const currentSearch = router.query.search || null;
+
+      if (newPage !== currentPage || newSearch !== currentSearch) {
         setLoading(true);
       }
     };

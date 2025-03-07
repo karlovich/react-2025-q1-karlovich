@@ -9,6 +9,7 @@ import { SearchFallback } from '../SearchFallback/SearchFallback';
 import { useTheme } from '../../context/ThemeContext';
 import { InfoPanel } from '../InfoPanel/InfoPanel';
 import { Character, CharacterSearchResults } from '@/shared/types';
+import { useRouter } from 'next/router';
 
 interface Props {
   charactersData: CharacterSearchResults;
@@ -22,7 +23,8 @@ export const HomeContent = ({
   character,
 }: Props) => {
   // const [searchTerm, setSearchTerm] = useLocalStorage();
-  const [searchTerm, setSearchTerm] = useState('');
+  const router = useRouter();
+  const [searchTerm, setSearchTerm] = useState(router.query.search as string);
   const [raiseError, setRaiseError] = useState(false);
   const { theme } = useTheme();
   // const { id } = useParams();
@@ -31,6 +33,9 @@ export const HomeContent = ({
   const onSearch = (text: string) => {
     setRaiseError(false);
     setSearchTerm(text);
+    router.push({
+      query: { ...router.query, search: text },
+    });
   };
 
   const onRaiseError = () => {

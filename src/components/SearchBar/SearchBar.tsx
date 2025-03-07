@@ -8,7 +8,7 @@ interface SearchBarProps {
 
 export const SearchBar = ({ searchTerm, onSearch }: SearchBarProps) => {
   const { theme } = useTheme();
-  const [searchInput, setSearchInput] = useState(searchTerm);
+  const [searchInput, setSearchInput] = useState(searchTerm ?? '');
 
   const onButtonClick = () => {
     onSearch(searchInput);

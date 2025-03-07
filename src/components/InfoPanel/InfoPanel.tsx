@@ -48,11 +48,8 @@ export const InfoPanel = ({ character }: Props) => {
 
   useEffect(() => {
     const onChangeStart = (newUrl: string) => {
-      console.log('newId', newUrl);
       const newId = newUrl.match(/characters\/([^?]+)/)?.[1] || null;
       const currentId = router.query.id || null;
-      console.log('newId', newId);
-      console.log('currentId', currentId);
       if (newId !== currentId) {
         setLoading(true);
       }
@@ -71,8 +68,10 @@ export const InfoPanel = ({ character }: Props) => {
   if (loading) return <Loader />;
 
   const handleClose = () => {
-    // const searchParams = new URLSearchParams(location.search);
-    // navigate(`/?${searchParams.toString()}`);
+    router.push({
+      pathname: `/`,
+      query: { page: router.query.page },
+    });
   };
 
   return character ? (
