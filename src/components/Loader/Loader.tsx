@@ -2,7 +2,7 @@ import './Loader.css';
 import fadeCircles from '@/assets/fade-stagger-circles.svg';
 import Image from 'next/image';
 
-export const Loader = () => {
+const Loader = () => {
   return (
     <div className="loader">
       <Image
@@ -14,3 +14,5 @@ export const Loader = () => {
     </div>
   );
 };
+
+export default Loader;

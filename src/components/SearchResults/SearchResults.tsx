@@ -5,7 +5,7 @@ import { Pager } from '../Pager/Pager';
 import { useTheme } from '../../context/ThemeContext';
 import { CharacterSearchResults } from '@/shared/types';
 import { useRouter } from 'next/router';
-import { Loader } from '../Loader/Loader';
+import Loader from '../Loader/Loader';
 
 interface SearchResultsProps {
   searchTerm: string;

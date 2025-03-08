@@ -6,7 +6,7 @@ import { useTheme } from '../../context/ThemeContext';
 // import { useState } from 'react';
 import { Character } from '@/shared/types';
 import { useRouter } from 'next/router';
-import { Loader } from '../Loader/Loader';
+import Loader from '../Loader/Loader';
 
 interface Props {
   character?: Character;
