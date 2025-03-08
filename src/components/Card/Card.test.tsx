@@ -5,7 +5,7 @@ import { Card } from './Card';
 import { Character } from '../../shared/types';
 import { Provider } from 'react-redux';
 import { store } from '../../store/store';
-// import { add, remove } from '../../features/cardStoreSlice';
+import { add, remove } from '../../features/cardStoreSlice';
 import { ThemeProvider } from '../../context/ThemeContext';
 import React from 'react';
 
@@ -55,42 +55,38 @@ describe('Card Component', () => {
     });
   });
 
-  // it('dispatches add action when checkbox is checked', () => {
-  //   const dispatch = vi.spyOn(store, 'dispatch');
+  it('dispatches add action when checkbox is checked', () => {
+    const dispatch = vi.spyOn(store, 'dispatch');
 
-  //   render(
-  //     <Provider store={store}>
-  //       <MemoryRouter>
-  //         <ThemeProvider>
-  //           <Card character={mockedCharacter} />
-  //         </ThemeProvider>
-  //       </MemoryRouter>
-  //     </Provider>
-  //   );
+    render(
+      <Provider store={store}>
+        <ThemeProvider>
+          <Card character={mockedCharacter} />
+        </ThemeProvider>
+      </Provider>
+    );
 
-  //   const checkbox = screen.getByRole('checkbox');
-  //   fireEvent.click(checkbox);
+    const checkbox = screen.getByRole('checkbox');
+    fireEvent.click(checkbox);
 
-  //   expect(dispatch).toHaveBeenCalledWith(add(mockedCharacter));
-  // });
+    expect(dispatch).toHaveBeenCalledWith(add(mockedCharacter));
+  });
 
-  // it('dispatches remove action when checkbox is unchecked', () => {
-  //   const dispatch = vi.spyOn(store, 'dispatch');
+  it('dispatches remove action when checkbox is unchecked', () => {
+    const dispatch = vi.spyOn(store, 'dispatch');
 
-  //   render(
-  //     <Provider store={store}>
-  //       <MemoryRouter>
-  //         <ThemeProvider>
-  //           <Card character={mockedCharacter} />
-  //         </ThemeProvider>
-  //       </MemoryRouter>
-  //     </Provider>
-  //   );
+    render(
+      <Provider store={store}>
+        <ThemeProvider>
+          <Card character={mockedCharacter} />
+        </ThemeProvider>
+      </Provider>
+    );
 
-  //   const checkbox = screen.getByRole('checkbox');
-  //   fireEvent.click(checkbox);
-  //   fireEvent.click(checkbox);
+    const checkbox = screen.getByRole('checkbox');
+    fireEvent.click(checkbox);
+    fireEvent.click(checkbox);
 
-  //   expect(dispatch).toHaveBeenCalledWith(remove(mockedCharacter));
-  // });
+    expect(dispatch).toHaveBeenCalledWith(remove(mockedCharacter));
+  });
 });

@@ -1,9 +1,5 @@
-// import { useParams, useNavigate, useLocation } from 'react-router';
-// import { Loader } from '../Loader/Loader';
-// import { useGetCharacterByIdQuery } from '../../services/charactersApi';
 import { useEffect, useState } from 'react';
 import { useTheme } from '../../context/ThemeContext';
-// import { useState } from 'react';
 import { Character } from '@/shared/types';
 import { useRouter } from 'next/router';
 import Loader from '../Loader/Loader';
@@ -13,24 +9,7 @@ interface Props {
 }
 
 export const InfoPanel = ({ character }: Props) => {
-  // const { id } = useParams();
-  // const navigate = useNavigate();
-  // const location = useLocation();
   const { theme } = useTheme();
-  // const [id] = useState('1');
-  // if (id === undefined) {
-  //   throw Error('There is no valid id in query string');
-  // }
-  // const {
-  //   data: character,
-  //   error,
-  //   isLoading,
-  //   isFetching,
-  // } = useGetCharacterByIdQuery(id);
-  // if (error) {
-  //   console.error(error);
-  // }
-
   const characterDetails = [
     { label: 'Galaxy URL', value: character?.url },
     { label: 'Name', value: character?.name },

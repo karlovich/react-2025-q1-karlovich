@@ -43,3 +43,10 @@ export const mockResponseForLuke: CharacterSearchResults = {
   previous: null,
   results: mockCharacters,
 };
+
+export const mockEmptyResponse: CharacterSearchResults = {
+  count: 0,
+  next: null,
+  previous: null,
+  results: [],
+};

@@ -5,7 +5,7 @@ import { SearchResults } from './SearchResults';
 import { Provider } from 'react-redux';
 import { store } from '../../store/store';
 import { ThemeProvider } from '../../context/ThemeContext';
-import { mockResponseForLuke } from '../../mocks/data';
+import { mockResponseForLuke, mockEmptyResponse } from '../../mocks/data';
 
 const mockPush = vi.fn();
 const mockRouterEvents = {
@@ -51,37 +51,33 @@ describe('SearchResults Component', () => {
     expect(screen.getByTestId('test-loader-img')).toBeInTheDocument();
   });
 
-  // it('fetches and displays search results', async () => {
-  //   render(
-  //     <Provider store={store}>
-  //       <ThemeProvider>
-  //         <SearchResults searchTerm="Luke" />
-  //       </ThemeProvider>
-  //     </Provider>
-  //   );
+  it('fetches and displays search results', async () => {
+    render(
+      <Provider store={store}>
+        <ThemeProvider>
+          <SearchResults searchTerm="Luke" data={mockResponseForLuke} />
+        </ThemeProvider>
+      </Provider>
+    );
 
-  //   await waitFor(() => {
-  //     expect(
-  //       screen.getByText('Search of the Galactic Republic found 2 creatures')
-  //     ).toBeInTheDocument();
-  //     expect(screen.getByText('Name: Luke Skywalker')).toBeInTheDocument();
-  //     expect(screen.getByText('Name: Darth Vader')).toBeInTheDocument();
-  //   });
-  // });
+    expect(
+      screen.getByText('Search of the Galactic Republic found 2 creatures')
+    ).toBeInTheDocument();
+    expect(screen.getByText('Name: Luke Skywalker')).toBeInTheDocument();
+    expect(screen.getByText('Name: Darth Vader')).toBeInTheDocument();
+  });
 
-  // it("displays 'No Creatures Found' when no results are returned", async () => {
-  //   render(
-  //     <Provider store={store}>
-  //       <ThemeProvider>
-  //         <SearchResults searchTerm="test" />
-  //       </ThemeProvider>
-  //     </Provider>
-  //   );
+  it('displays empty search result message when no results are returned', async () => {
+    render(
+      <Provider store={store}>
+        <ThemeProvider>
+          <SearchResults searchTerm="test" data={mockEmptyResponse} />
+        </ThemeProvider>
+      </Provider>
+    );
 
-  //   await waitFor(() => {
-  //     expect(
-  //       screen.getByText(/Unfortunately, search results are empty./i)
-  //     ).toBeInTheDocument();
-  //   });
-  // });
+    expect(
+      screen.getByText(/Unfortunately, search results are empty./i)
+    ).toBeInTheDocument();
+  });
 });
