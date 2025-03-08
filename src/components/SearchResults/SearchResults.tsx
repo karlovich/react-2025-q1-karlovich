@@ -1,10 +1,7 @@
 import { useEffect, useState } from 'react';
-// import { useSearchParams } from 'react-router';
 import { Card } from '../Card/Card';
-// import { Loader } from '../Loader/Loader';
 import { SearchFallback } from '../SearchFallback/SearchFallback';
 import { Pager } from '../Pager/Pager';
-// import { useSearchCharactersQuery } from '../../services/charactersApi';
 import { useTheme } from '../../context/ThemeContext';
 import { CharacterSearchResults } from '@/shared/types';
 import { useRouter } from 'next/router';
@@ -12,30 +9,11 @@ import { Loader } from '../Loader/Loader';
 
 interface SearchResultsProps {
   searchTerm: string;
-  showError: boolean;
   data: CharacterSearchResults;
 }
 
-export const SearchResults = ({
-  // searchTerm,
-  showError,
-  data,
-}: SearchResultsProps) => {
-  // const [searchParams] = useSearchParams();
+export const SearchResults = ({ data }: SearchResultsProps) => {
   const { theme } = useTheme();
-
-  // const { data, error, isLoading, isFetching } = useSearchCharactersQuery({
-  //   searchTerm: searchTerm,
-  //   // page: searchParams.get('page') || '',
-  //   page: '',
-  // });
-
-  useEffect(() => {
-    if (showError) {
-      throw new Error('May the 4th be with u');
-    }
-  }, [showError]);
-
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   useEffect(() => {

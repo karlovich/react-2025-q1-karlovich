@@ -70,7 +70,7 @@ export const InfoPanel = ({ character }: Props) => {
   const handleClose = () => {
     router.push({
       pathname: `/`,
-      query: { page: router.query.page },
+      query: { page: router.query.page, search: router.query.search },
     });
   };
 

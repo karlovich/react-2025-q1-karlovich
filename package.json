@@ -8,7 +8,6 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "preview": "vite preview",
     "prepare": "husky",
     "format:check": "prettier --check .",
     "format:fix": "prettier --write .",
