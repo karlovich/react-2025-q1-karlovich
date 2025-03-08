@@ -7,7 +7,6 @@ import { Provider } from 'react-redux';
 import { store } from '../../store/store';
 // import { add, remove } from '../../features/cardStoreSlice';
 import { ThemeProvider } from '../../context/ThemeContext';
-import { useRouter } from 'next/router';
 import React from 'react';
 
 const mockPush = vi.fn();

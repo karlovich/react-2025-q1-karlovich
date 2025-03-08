@@ -2,7 +2,7 @@ import { render, screen } from '@testing-library/react';
 import { beforeEach, describe, it, expect } from 'vitest';
 import '@testing-library/jest-dom';
 import Loader from './Loader';
-import fadeCircles from '@/assets/fade-stagger-circles.svg';
+// import fadeCircles from '@/assets/fade-stagger-circles.svg';
 
 let loaderImg: HTMLElement;
 
