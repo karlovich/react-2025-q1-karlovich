@@ -15,7 +15,7 @@ export default function Layout({ children }: Props) {
       <Provider store={store}>
         <Navigation />
         <Header />
-        <main>{children}</main>
+        <main className="p-4">{children}</main>
         <Footer />
         <ToastMessage />
       </Provider>
