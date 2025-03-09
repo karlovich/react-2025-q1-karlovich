@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import { describe, it, expect } from 'vitest';
 import '@testing-library/jest-dom';
-import Page404 from '../404';
+import Page404 from '../../pages/404';
 
 describe('Renders Page404 Correctly', () => {
   it('has proper text', () => {

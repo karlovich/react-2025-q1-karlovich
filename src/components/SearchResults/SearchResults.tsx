@@ -36,7 +36,7 @@ export const SearchResults = ({ data }: SearchResultsProps) => {
       router.events.off('routeChangeStart', onChangeStart);
       router.events.off('routeChangeComplete', onChangeComplete);
     };
-  }, []);
+  }, [router.events, router.query.page, router.query.search]);
 
   if (loading) return <Loader />;
 

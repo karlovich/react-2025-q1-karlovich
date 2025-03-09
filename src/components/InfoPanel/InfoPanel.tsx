@@ -42,7 +42,7 @@ export const InfoPanel = ({ character }: Props) => {
       router.events.off('routeChangeStart', onChangeStart);
       router.events.off('routeChangeComplete', onChangeComplete);
     };
-  }, []);
+  }, [router.events, router.query.id]);
 
   if (loading) return <Loader />;
 

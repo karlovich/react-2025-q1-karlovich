@@ -1,3 +1,5 @@
+import Link from 'next/link';
+
 export const SearchFallback = () => {
   return (
     <div
@@ -5,10 +7,10 @@ export const SearchFallback = () => {
       data-testid="test-search-fallback"
     >
       Unfortunately, search results are empty. Please make search once again or
-      <a href="/" data-testid="test-search-fallback-link">
+      <Link href="/" data-testid="test-search-fallback-link">
         {' '}
         refresh the page.
-      </a>
+      </Link>
     </div>
   );
 };

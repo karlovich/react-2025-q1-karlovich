@@ -1,6 +1,7 @@
 import { AppProps } from 'next/app';
 
 import '@/styles/globals.css';
+import '@/styles/Loader.css';
 import Layout from '@/components/Layout/Layout';
 import { ThemeProvider } from '@/context/ThemeContext';
 
