@@ -5,7 +5,7 @@ import { SearchResults } from '../SearchResults/SearchResults';
 import { useTheme } from '../../context/ThemeContext';
 import { InfoPanel } from '../InfoPanel/InfoPanel';
 import { Character, CharacterSearchResults } from '@/shared/types';
-// import { useRouter } from 'next/navigation';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
 interface Props {
   charactersData: CharacterSearchResults;
@@ -18,22 +18,22 @@ export const HomeContent = ({
   infoPanelVisibility = false,
   character,
 }: Props) => {
-  // const router = useRouter();
-  // const [searchTerm, setSearchTerm] = useState(router.query.search as string);
-  const [searchTerm, setSearchTerm] = useState('');
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const [searchTerm, setSearchTerm] = useState(
+    searchParams.get('search') ?? ''
+  );
   const { theme } = useTheme();
   const onSearch = (text: string) => {
     setSearchTerm(text);
-    // router.push({
-    //   query: { ...router.query, search: text, page: '1' },
-    // });
+    const params = new URLSearchParams(searchParams.toString());
+    params.set('search', text);
+    router.push(pathname + '?' + params.toString());
   };
 
   const handleContainerClick = () => {
-    // router.push({
-    //   pathname: `/`,
-    //   query: { page: router.query.page, search: router.query.search },
-    // });
+    router.push('/' + '?' + searchParams.toString());
   };
 
   return (

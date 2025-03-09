@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { add, remove } from '../../features/cardStoreSlice';
 import { RootState } from '../../store/store';
 import { useTheme } from '../../context/ThemeContext';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 interface CardProps {
   character: Character;
@@ -13,6 +13,7 @@ interface CardProps {
 export const Card = ({ character }: CardProps) => {
   const { theme } = useTheme();
   const router = useRouter();
+  const searchParams = useSearchParams();
   const { name, gender, url } = character;
   const getId = (url: string) => {
     const id = (url && url.split('/')[5]) || '';
@@ -29,7 +30,7 @@ export const Card = ({ character }: CardProps) => {
   const onClick = (url: string) => {
     const id = (url && url.split('/')[5]) || '';
     if (id) {
-      router.push(`/characters/${id}`);
+      router.push(`/characters/${id}` + '?' + searchParams.toString());
     }
   };
 

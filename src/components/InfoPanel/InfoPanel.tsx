@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useTheme } from '../../context/ThemeContext';
 import { Character } from '@/shared/types';
-// import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import Loader from '../Loader/Loader';
 
 interface Props {
@@ -22,7 +22,8 @@ export const InfoPanel = ({ character }: Props) => {
     { label: 'Eye Color', value: character?.eye_color },
   ];
 
-  // const router = useRouter();
+  const router = useRouter();
+  const searchParams = useSearchParams();
   const [loading] = useState(false);
 
   useEffect(() => {
@@ -45,10 +46,7 @@ export const InfoPanel = ({ character }: Props) => {
   if (loading) return <Loader />;
 
   const handleClose = () => {
-    // router.push({
-    //   pathname: `/`,
-    //   query: { page: router.query.page, search: router.query.search },
-    // });
+    router.push(`/` + '?' + searchParams.toString());
   };
 
   return character ? (
