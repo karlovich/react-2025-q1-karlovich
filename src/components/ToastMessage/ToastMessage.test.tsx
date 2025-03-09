@@ -2,7 +2,7 @@ import { act, fireEvent, render, screen } from '@testing-library/react';
 import { describe, it, expect, beforeEach } from 'vitest';
 import '@testing-library/jest-dom';
 import { Provider } from 'react-redux';
-import { store } from '../../app/store';
+import { store } from '../../store/store';
 import { add, reset } from '../../features/cardStoreSlice';
 import { ToastMessage } from './ToastMessage';
 import { mockedCharacterId1 } from '../../mocks/data';

@@ -8,9 +8,10 @@ interface SearchBarProps {
 
 export const SearchBar = ({ searchTerm, onSearch }: SearchBarProps) => {
   const { theme } = useTheme();
-  const [searchInput, setSearchInput] = useState(searchTerm);
+  const [searchInput, setSearchInput] = useState(searchTerm ?? '');
 
-  const onButtonClick = () => {
+  const onButtonClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation();
     onSearch(searchInput);
   };
 
@@ -22,6 +23,7 @@ export const SearchBar = ({ searchTerm, onSearch }: SearchBarProps) => {
     <div className="flex space-x-2 justify-center w-full max-w-md mx-auto">
       <input
         onChange={onInputChange}
+        onClick={(e) => e.stopPropagation()}
         className="border border-black p-2 rounded bg-white text-black w-full"
         type="text"
         placeholder="Search..."

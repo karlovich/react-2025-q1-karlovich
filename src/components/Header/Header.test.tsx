@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import { describe, it, expect } from 'vitest';
-import { Header } from './Header';
+import Header from './Header';
 import { ThemeProvider } from '../../context/ThemeContext';
 
 describe('Header Component', () => {

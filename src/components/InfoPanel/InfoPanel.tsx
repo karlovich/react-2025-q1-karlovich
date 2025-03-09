@@ -1,28 +1,17 @@
-import { useParams, useNavigate, useLocation } from 'react-router';
-import { Loader } from '../Loader/Loader';
-import { useGetCharacterByIdQuery } from '../../services/charactersApi';
+import { useEffect, useState } from 'react';
 import { useTheme } from '../../context/ThemeContext';
+import { Character } from '@/shared/types';
+import { useRouter } from 'next/router';
+import Loader from '../Loader/Loader';
 
-export const InfoPanel = () => {
-  const { id } = useParams();
-  const navigate = useNavigate();
-  const location = useLocation();
+interface Props {
+  character?: Character;
+}
+
+export const InfoPanel = ({ character }: Props) => {
   const { theme } = useTheme();
-  if (id === undefined) {
-    throw Error('There is no valid id in query string');
-  }
-  const {
-    data: character,
-    error,
-    isLoading,
-    isFetching,
-  } = useGetCharacterByIdQuery(id);
-  if (error) {
-    console.error(error);
-  }
-
   const characterDetails = [
-    { label: 'Galaxy ID', value: id },
+    { label: 'Galaxy URL', value: character?.url },
     { label: 'Name', value: character?.name },
     { label: 'Gender', value: character?.gender },
     { label: 'Birth Year', value: character?.birth_year },
@@ -33,14 +22,38 @@ export const InfoPanel = () => {
     { label: 'Eye Color', value: character?.eye_color },
   ];
 
-  if (isLoading || isFetching) return <Loader />;
+  const router = useRouter();
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    const onChangeStart = (newUrl: string) => {
+      const newId = newUrl.match(/characters\/([^?]+)/)?.[1] || null;
+      const currentId = router.query.id || null;
+      if (newId !== currentId) {
+        setLoading(true);
+      }
+    };
+    const onChangeComplete = () => setLoading(false);
+
+    router.events.on('routeChangeStart', onChangeStart);
+    router.events.on('routeChangeComplete', onChangeComplete);
+
+    return () => {
+      router.events.off('routeChangeStart', onChangeStart);
+      router.events.off('routeChangeComplete', onChangeComplete);
+    };
+  }, [router.events, router.query.id]);
+
+  if (loading) return <Loader />;
 
   const handleClose = () => {
-    const searchParams = new URLSearchParams(location.search);
-    navigate(`/?${searchParams.toString()}`);
+    router.push({
+      pathname: `/`,
+      query: { page: router.query.page, search: router.query.search },
+    });
   };
 
-  return (
+  return character ? (
     <div className="relative p-4">
       <button
         onClick={handleClose}
@@ -56,5 +69,5 @@ export const InfoPanel = () => {
         </div>
       ))}
     </div>
-  );
+  ) : null;
 };

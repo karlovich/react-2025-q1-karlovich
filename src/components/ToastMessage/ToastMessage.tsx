@@ -1,5 +1,5 @@
 import { useSelector, useDispatch } from 'react-redux';
-import { RootState } from '../../app/store';
+import { RootState } from '../../store/store';
 import { reset } from '../../features/cardStoreSlice';
 import CsvExportBtn from '../CsvExportBtn/CsvExportBtn';
 

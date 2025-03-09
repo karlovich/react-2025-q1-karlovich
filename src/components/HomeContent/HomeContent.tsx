@@ -1,38 +1,38 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { SearchBar } from '../SearchBar/SearchBar';
 import { SearchResults } from '../SearchResults/SearchResults';
-import { ErrorButton } from '../ErrorButton/ErrorButton';
-import { ErrorBoundary } from '../ErrorBoundary';
-import { SearchFallback } from '../SearchFallback/SearchFallback';
-import { useLocalStorage } from '../../hooks/useLocalStorage';
-import { Outlet, useParams, useNavigate, useLocation } from 'react-router';
 import { useTheme } from '../../context/ThemeContext';
+import { InfoPanel } from '../InfoPanel/InfoPanel';
+import { Character, CharacterSearchResults } from '@/shared/types';
+import { useRouter } from 'next/router';
 
-export const HomeContent = () => {
-  const [searchTerm, setSearchTerm] = useLocalStorage();
-  const [raiseError, setRaiseError] = useState(false);
+interface Props {
+  charactersData: CharacterSearchResults;
+  infoPanelVisibility?: boolean;
+  character?: Character;
+}
+
+export const HomeContent = ({
+  charactersData,
+  infoPanelVisibility = false,
+  character,
+}: Props) => {
+  const router = useRouter();
+  const [searchTerm, setSearchTerm] = useState(router.query.search as string);
   const { theme } = useTheme();
-  const [infoPanelVisibility, setInfoPanelVisibility] = useState(false);
-  const { id } = useParams();
-  const navigate = useNavigate();
-  const location = useLocation();
   const onSearch = (text: string) => {
-    setRaiseError(false);
     setSearchTerm(text);
-  };
-
-  const onRaiseError = () => {
-    setRaiseError(true);
+    router.push({
+      query: { ...router.query, search: text, page: '1' },
+    });
   };
 
   const handleContainerClick = () => {
-    const searchParams = new URLSearchParams(location.search);
-    navigate(`/?${searchParams.toString()}`);
+    router.push({
+      pathname: `/`,
+      query: { page: router.query.page, search: router.query.search },
+    });
   };
-
-  useEffect(() => {
-    setInfoPanelVisibility(id !== undefined);
-  }, [id]);
 
   return (
     <div className="flex" data-testid="homecontent-container">
@@ -42,18 +42,13 @@ export const HomeContent = () => {
         onClick={handleContainerClick}
       >
         <SearchBar searchTerm={searchTerm} onSearch={onSearch} />
-        <ErrorBoundary fallbackUI={<SearchFallback />} tryAgain={!raiseError}>
-          <SearchResults searchTerm={searchTerm} showError={raiseError} />
-        </ErrorBoundary>
-        <div className="flex p-4 justify-end">
-          <ErrorButton onRaiseError={onRaiseError} />
-        </div>
+        <SearchResults searchTerm={searchTerm} data={charactersData} />
       </div>
       <div
         className={`${theme === 'dark-mode' ? 'bg-gray-200' : 'bg-sky-600'} transition-width duration-300 ${infoPanelVisibility ? 'w-1/3' : 'w-0'}`}
         data-testid="info-panel-container"
       >
-        <Outlet />
+        <InfoPanel character={character} />
       </div>
     </div>
   );

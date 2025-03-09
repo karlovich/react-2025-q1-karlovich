@@ -1,5 +1,5 @@
 import { useTheme } from '../../context/ThemeContext';
-export const Header = () => {
+const Header = () => {
   const { theme, toggleTheme } = useTheme();
   return (
     <header
@@ -25,3 +25,5 @@ export const Header = () => {
     </header>
   );
 };
+
+export default Header;

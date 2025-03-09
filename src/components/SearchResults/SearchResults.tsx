@@ -1,38 +1,46 @@
-import { useEffect } from 'react';
-import { useSearchParams } from 'react-router';
+import { useEffect, useState } from 'react';
 import { Card } from '../Card/Card';
-import { Loader } from '../Loader/Loader';
 import { SearchFallback } from '../SearchFallback/SearchFallback';
 import { Pager } from '../Pager/Pager';
-import { useSearchCharactersQuery } from '../../services/charactersApi';
 import { useTheme } from '../../context/ThemeContext';
+import { CharacterSearchResults } from '@/shared/types';
+import { useRouter } from 'next/router';
+import Loader from '../Loader/Loader';
 
 interface SearchResultsProps {
   searchTerm: string;
-  showError: boolean;
+  data: CharacterSearchResults;
 }
 
-export const SearchResults = ({
-  searchTerm,
-  showError,
-}: SearchResultsProps) => {
-  const [searchParams] = useSearchParams();
+export const SearchResults = ({ data }: SearchResultsProps) => {
   const { theme } = useTheme();
-
-  const { data, error, isLoading, isFetching } = useSearchCharactersQuery({
-    searchTerm: searchTerm,
-    page: searchParams.get('page') || '',
-  });
-
+  const router = useRouter();
+  const [loading, setLoading] = useState(false);
   useEffect(() => {
-    if (showError) {
-      throw new Error('May the 4th be with u');
-    }
-  }, [showError]);
+    const onChangeStart = (newUrl: string) => {
+      const newPage = newUrl.match(/[?&]page=([^&]+)/)?.[1] || null;
+      const currentPage = router.query.page || null;
 
-  if (isLoading || isFetching) return <Loader />;
+      const newSearch = newUrl.match(/[?&]search=([^&]+)/)?.[1] || null;
+      const currentSearch = router.query.search || null;
 
-  if (error || data === undefined || data.count === 0) {
+      if (newPage !== currentPage || newSearch !== currentSearch) {
+        setLoading(true);
+      }
+    };
+    const onChangeComplete = () => setLoading(false);
+    router.events.on('routeChangeStart', onChangeStart);
+    router.events.on('routeChangeComplete', onChangeComplete);
+
+    return () => {
+      router.events.off('routeChangeStart', onChangeStart);
+      router.events.off('routeChangeComplete', onChangeComplete);
+    };
+  }, [router.events, router.query.page, router.query.search]);
+
+  if (loading) return <Loader />;
+
+  if (data === undefined || data.count === 0) {
     return <SearchFallback />;
   }
 

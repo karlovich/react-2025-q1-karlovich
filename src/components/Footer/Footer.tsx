@@ -1,6 +1,6 @@
 import { useTheme } from '../../context/ThemeContext';
 
-export const Footer = () => {
+const Footer = () => {
   const { theme } = useTheme();
 
   return (
@@ -20,3 +20,5 @@ export const Footer = () => {
     </footer>
   );
 };
+
+export default Footer;
