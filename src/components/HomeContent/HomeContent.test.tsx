@@ -36,21 +36,4 @@ describe('HomeContent Component', () => {
     ).toBeInTheDocument();
     expect(screen.getByTestId('info-panel-container')).toBeInTheDocument();
   });
-
-  // it('renders info panel container having character ID in URL', () => {
-  //   render(
-  //     <MemoryRouter initialEntries={['/character/1']}>
-  //       <Provider store={store}>
-  //         <ThemeProvider>
-  //           <Routes>
-  //             <Route path="/character/:id" element={<HomeContent />} />
-  //           </Routes>
-  //         </ThemeProvider>
-  //       </Provider>
-  //     </MemoryRouter>
-  //   );
-
-  //   const infoPanel = screen.getByTestId('info-panel-container');
-  //   expect(infoPanel).toHaveClass('w-1/3');
-  // });
 });

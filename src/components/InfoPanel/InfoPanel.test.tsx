@@ -22,16 +22,6 @@ vi.mock('next/router', () => ({
 }));
 
 describe('InfoPanel Component', () => {
-  // it('renders loading state initially', () => {
-  //   render(
-  //     <Provider store={store}>
-  //       <ThemeProvider></ThemeProvider>
-  //     </Provider>
-  //   );
-
-  //   expect(screen.getByTestId('test-loader-img')).toBeInTheDocument();
-  // });
-
   it('fetches and displays character details', async () => {
     render(
       <Provider store={store}>
