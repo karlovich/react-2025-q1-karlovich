@@ -29,6 +29,7 @@ export const HomeContent = ({
     setSearchTerm(text);
     const params = new URLSearchParams(searchParams.toString());
     params.set('search', text);
+    params.set('page', '1');
     router.push(pathname + '?' + params.toString());
   };
 

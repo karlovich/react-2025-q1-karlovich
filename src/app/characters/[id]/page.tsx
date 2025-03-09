@@ -2,8 +2,6 @@ import { Character, CharacterSearchResults } from '@/shared/types';
 import { HomeContent } from '../../../components/HomeContent/HomeContent';
 
 async function getCharacters(page: string, search: string) {
-  page = page ?? '1';
-  search = search ?? '';
   const res = await fetch(
     `https://swapi.dev/api/people/?search=${search}&page=${page}`
   );
@@ -17,14 +15,15 @@ async function getCharacterById(id: string) {
   return character;
 }
 
-interface Props {
-  params: { id: string };
-  searchParams: { page: string; search: string };
-}
-
-export default async function Page({ params, searchParams }: Props) {
-  const { id } = params;
-  const { page, search } = searchParams;
+export default async function Page({
+  params,
+  searchParams,
+}: {
+  params: Promise<{ id: string }>;
+  searchParams: Promise<{ [key: string]: string | undefined }>;
+}) {
+  const { id } = await params;
+  const { page = '1', search = '' } = await searchParams;
   const characters = await getCharacters(page, search);
   const character = await getCharacterById(id);
   return (
