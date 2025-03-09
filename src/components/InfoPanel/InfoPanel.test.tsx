@@ -1,4 +1,4 @@
-import { render, screen, waitFor } from '@testing-library/react';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { describe, it, expect, vi } from 'vitest';
 import '@testing-library/jest-dom';
 import { InfoPanel } from './InfoPanel';
@@ -8,31 +8,16 @@ import { ThemeProvider } from '../../context/ThemeContext';
 import { mockedCharacterId1 } from '../../mocks/data';
 
 const mockPush = vi.fn();
-const mockRouterEvents = {
-  on: vi.fn(),
-  off: vi.fn(),
-};
-
-vi.mock('next/router', () => ({
+vi.mock('next/navigation', () => ({
   useRouter: () => ({
     push: mockPush,
-    query: {},
-    events: mockRouterEvents,
   }),
+  useSearchParams: () => new URLSearchParams('?page=2'),
+  usePathname: () => '/characters/1',
 }));
 
 describe('InfoPanel Component', () => {
-  // it('renders loading state initially', () => {
-  //   render(
-  //     <Provider store={store}>
-  //       <ThemeProvider></ThemeProvider>
-  //     </Provider>
-  //   );
-
-  //   expect(screen.getByTestId('test-loader-img')).toBeInTheDocument();
-  // });
-
-  it('fetches and displays character details', async () => {
+  it('fetches and displays character details and closes panel correctly', async () => {
     render(
       <Provider store={store}>
         <ThemeProvider>
@@ -54,5 +39,9 @@ describe('InfoPanel Component', () => {
       expect(screen.getByText('Skin Color: fair')).toBeInTheDocument();
       expect(screen.getByText('Eye Color: n/a')).toBeInTheDocument();
     });
+
+    const closeBtn = screen.getByTestId('infopanel-close-btn');
+    fireEvent.click(closeBtn);
+    expect(mockPush).toHaveBeenCalledWith('/?page=2');
   });
 });

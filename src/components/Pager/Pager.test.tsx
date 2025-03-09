@@ -6,12 +6,12 @@ import { ThemeProvider } from '../../context/ThemeContext';
 import Header from '../Header/Header';
 
 const mockPush = vi.fn();
-
-vi.mock('next/router', () => ({
+vi.mock('next/navigation', () => ({
   useRouter: () => ({
     push: mockPush,
-    query: { page: '2' },
   }),
+  useSearchParams: () => new URLSearchParams('?page=2'),
+  usePathname: () => '/',
 }));
 
 describe('Pager Component', () => {
@@ -30,9 +30,7 @@ describe('Pager Component', () => {
     );
 
     fireEvent.click(screen.getByText('Prev'));
-    expect(mockPush).toHaveBeenCalledWith({
-      query: { page: '1' },
-    });
+    expect(mockPush).toHaveBeenCalledWith('/?page=1');
   });
 
   it('updates page in the URL correctly when Next clicked', () => {
@@ -46,9 +44,7 @@ describe('Pager Component', () => {
     );
 
     fireEvent.click(screen.getByText('Next'));
-    expect(mockPush).toHaveBeenCalledWith({
-      query: { page: '3' },
-    });
+    expect(mockPush).toHaveBeenCalledWith('/?page=3');
   });
 
   it('toggles theme from black to color correctly', () => {

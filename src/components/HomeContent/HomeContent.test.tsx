@@ -8,17 +8,12 @@ import { ThemeProvider } from '../../context/ThemeContext';
 import { mockResponseForLuke } from '../../mocks/data';
 
 const mockPush = vi.fn();
-const mockRouterEvents = {
-  on: vi.fn(),
-  off: vi.fn(),
-};
-
-vi.mock('next/router', () => ({
+vi.mock('next/navigation', () => ({
   useRouter: () => ({
     push: mockPush,
-    query: {},
-    events: mockRouterEvents,
   }),
+  useSearchParams: () => new URLSearchParams('?page=2'),
+  usePathname: () => '/',
 }));
 
 describe('HomeContent Component', () => {

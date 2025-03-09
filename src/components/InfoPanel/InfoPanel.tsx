@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useTheme } from '../../context/ThemeContext';
 import { Character } from '@/shared/types';
 import { useRouter, useSearchParams } from 'next/navigation';
@@ -26,23 +26,6 @@ export const InfoPanel = ({ character }: Props) => {
   const searchParams = useSearchParams();
   const [loading] = useState(false);
 
-  useEffect(() => {
-    // const onChangeStart = (newUrl: string) => {
-    //   const newId = newUrl.match(/characters\/([^?]+)/)?.[1] || null;
-    //   const currentId = router.query.id || null;
-    //   if (newId !== currentId) {
-    //     setLoading(true);
-    //   }
-    // };
-    // const onChangeComplete = () => setLoading(false);
-    // router.events.on('routeChangeStart', onChangeStart);
-    // router.events.on('routeChangeComplete', onChangeComplete);
-    // return () => {
-    //   router.events.off('routeChangeStart', onChangeStart);
-    //   router.events.off('routeChangeComplete', onChangeComplete);
-    // };
-  }, []);
-
   if (loading) return <Loader />;
 
   const handleClose = () => {
@@ -53,6 +36,7 @@ export const InfoPanel = ({ character }: Props) => {
     <div className="relative p-4">
       <button
         onClick={handleClose}
+        data-testid="infopanel-close-btn"
         className={`${theme === 'dark-mode' ? 'bg-black text-white' : 'bg-amber-200 text-black'} absolute top-1 right-1 font-bold px-2 cursor-pointer`}
       >
         X

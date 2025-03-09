@@ -2,40 +2,28 @@ import { fireEvent, render, screen } from '@testing-library/react';
 import { describe, it, expect, vi } from 'vitest';
 import '@testing-library/jest-dom';
 import { Card } from './Card';
-import { Character } from '../../shared/types';
 import { Provider } from 'react-redux';
 import { store } from '../../store/store';
 import { add, remove } from '../../features/cardStoreSlice';
 import { ThemeProvider } from '../../context/ThemeContext';
 import React from 'react';
+import { mockedCharacterId1 } from '../../mocks/data';
 
 const mockPush = vi.fn();
-
-vi.mock('next/router', () => ({
+vi.mock('next/navigation', () => ({
   useRouter: () => ({
     push: mockPush,
-    query: {},
   }),
+  useSearchParams: () => new URLSearchParams('?page=2'),
+  usePathname: () => '/',
 }));
-
-const mockedCharacter: Character = {
-  name: 'Luke Skywalker',
-  gender: 'male',
-  url: 'https://swapi.dev/api/people/1/',
-  birth_year: '19BBY',
-  height: 172,
-  mass: 77,
-  hair_color: 'blond',
-  skin_color: 'fair',
-  eye_color: 'n/a',
-};
 
 describe('Card Component', () => {
   it('renders correctly and navigates to the correct URL when clicked', () => {
     render(
       <Provider store={store}>
         <ThemeProvider>
-          <Card character={mockedCharacter} />
+          <Card character={mockedCharacterId1} />
         </ThemeProvider>
       </Provider>
     );
@@ -49,10 +37,7 @@ describe('Card Component', () => {
     expect(card).toContainElement(genderElement);
 
     fireEvent.click(card);
-    expect(mockPush).toHaveBeenCalledWith({
-      pathname: '/characters/1',
-      query: {},
-    });
+    expect(mockPush).toHaveBeenCalledWith('/characters/1?page=2');
   });
 
   it('dispatches add action when checkbox is checked', () => {
@@ -61,7 +46,7 @@ describe('Card Component', () => {
     render(
       <Provider store={store}>
         <ThemeProvider>
-          <Card character={mockedCharacter} />
+          <Card character={mockedCharacterId1} />
         </ThemeProvider>
       </Provider>
     );
@@ -69,7 +54,7 @@ describe('Card Component', () => {
     const checkbox = screen.getByRole('checkbox');
     fireEvent.click(checkbox);
 
-    expect(dispatch).toHaveBeenCalledWith(add(mockedCharacter));
+    expect(dispatch).toHaveBeenCalledWith(add(mockedCharacterId1));
   });
 
   it('dispatches remove action when checkbox is unchecked', () => {
@@ -78,7 +63,7 @@ describe('Card Component', () => {
     render(
       <Provider store={store}>
         <ThemeProvider>
-          <Card character={mockedCharacter} />
+          <Card character={mockedCharacterId1} />
         </ThemeProvider>
       </Provider>
     );
@@ -87,6 +72,6 @@ describe('Card Component', () => {
     fireEvent.click(checkbox);
     fireEvent.click(checkbox);
 
-    expect(dispatch).toHaveBeenCalledWith(remove(mockedCharacter));
+    expect(dispatch).toHaveBeenCalledWith(remove(mockedCharacterId1));
   });
 });
