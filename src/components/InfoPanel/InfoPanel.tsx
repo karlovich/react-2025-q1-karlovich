@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useTheme } from '../../context/ThemeContext';
 import { Character } from '@/shared/types';
-import { useRouter } from 'next/router';
+// import { useRouter } from 'next/navigation';
 import Loader from '../Loader/Loader';
 
 interface Props {
@@ -22,35 +22,33 @@ export const InfoPanel = ({ character }: Props) => {
     { label: 'Eye Color', value: character?.eye_color },
   ];
 
-  const router = useRouter();
-  const [loading, setLoading] = useState(false);
+  // const router = useRouter();
+  const [loading] = useState(false);
 
   useEffect(() => {
-    const onChangeStart = (newUrl: string) => {
-      const newId = newUrl.match(/characters\/([^?]+)/)?.[1] || null;
-      const currentId = router.query.id || null;
-      if (newId !== currentId) {
-        setLoading(true);
-      }
-    };
-    const onChangeComplete = () => setLoading(false);
-
-    router.events.on('routeChangeStart', onChangeStart);
-    router.events.on('routeChangeComplete', onChangeComplete);
-
-    return () => {
-      router.events.off('routeChangeStart', onChangeStart);
-      router.events.off('routeChangeComplete', onChangeComplete);
-    };
+    // const onChangeStart = (newUrl: string) => {
+    //   const newId = newUrl.match(/characters\/([^?]+)/)?.[1] || null;
+    //   const currentId = router.query.id || null;
+    //   if (newId !== currentId) {
+    //     setLoading(true);
+    //   }
+    // };
+    // const onChangeComplete = () => setLoading(false);
+    // router.events.on('routeChangeStart', onChangeStart);
+    // router.events.on('routeChangeComplete', onChangeComplete);
+    // return () => {
+    //   router.events.off('routeChangeStart', onChangeStart);
+    //   router.events.off('routeChangeComplete', onChangeComplete);
+    // };
   }, []);
 
   if (loading) return <Loader />;
 
   const handleClose = () => {
-    router.push({
-      pathname: `/`,
-      query: { page: router.query.page, search: router.query.search },
-    });
+    // router.push({
+    //   pathname: `/`,
+    //   query: { page: router.query.page, search: router.query.search },
+    // });
   };
 
   return character ? (

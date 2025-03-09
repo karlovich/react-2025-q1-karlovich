@@ -1,20 +1,18 @@
+'use client';
 import { Character } from '../../shared/types';
-// import { useNavigate, useLocation } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
 import { add, remove } from '../../features/cardStoreSlice';
 import { RootState } from '../../store/store';
 import { useTheme } from '../../context/ThemeContext';
-import { useRouter } from 'next/router';
+// import { useRouter } from 'next/navigation';
 
 interface CardProps {
   character: Character;
 }
 
 export const Card = ({ character }: CardProps) => {
-  // const navigate = useNavigate();
-  // const location = useLocation();
   const { theme } = useTheme();
-  const router = useRouter();
+  // const router = useRouter();
   const { name, gender, url } = character;
   const getId = (url: string) => {
     const id = (url && url.split('/')[5]) || '';
@@ -31,16 +29,16 @@ export const Card = ({ character }: CardProps) => {
   const onClick = (url: string) => {
     const id = (url && url.split('/')[5]) || '';
     if (id) {
-      if (router.query.id) {
-        router.push({
-          query: { ...router.query, id },
-        });
-      } else {
-        router.push({
-          pathname: `/characters/${id}`,
-          query: router.query,
-        });
-      }
+      // if (router.query.id) {
+      //   router.push({
+      //     query: { ...router.query, id },
+      //   });
+      // } else {
+      //   router.push({
+      //     pathname: `/characters/${id}`,
+      //     query: router.query,
+      //   });
+      // }
     }
   };
 

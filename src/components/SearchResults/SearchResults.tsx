@@ -1,10 +1,12 @@
+'use client';
+
 import { useEffect, useState } from 'react';
 import { Card } from '../Card/Card';
 import { SearchFallback } from '../SearchFallback/SearchFallback';
 import { Pager } from '../Pager/Pager';
 import { useTheme } from '../../context/ThemeContext';
 import { CharacterSearchResults } from '@/shared/types';
-import { useRouter } from 'next/router';
+// import { useRouter } from 'next/navigation';
 import Loader from '../Loader/Loader';
 
 interface SearchResultsProps {
@@ -14,28 +16,25 @@ interface SearchResultsProps {
 
 export const SearchResults = ({ data }: SearchResultsProps) => {
   const { theme } = useTheme();
-  const router = useRouter();
-  const [loading, setLoading] = useState(false);
+  // const router = useRouter();
+  const [loading] = useState(false);
   useEffect(() => {
-    const onChangeStart = (newUrl: string) => {
-      const newPage = newUrl.match(/[?&]page=([^&]+)/)?.[1] || null;
-      const currentPage = router.query.page || null;
-
-      const newSearch = newUrl.match(/[?&]search=([^&]+)/)?.[1] || null;
-      const currentSearch = router.query.search || null;
-
-      if (newPage !== currentPage || newSearch !== currentSearch) {
-        setLoading(true);
-      }
-    };
-    const onChangeComplete = () => setLoading(false);
-    router.events.on('routeChangeStart', onChangeStart);
-    router.events.on('routeChangeComplete', onChangeComplete);
-
-    return () => {
-      router.events.off('routeChangeStart', onChangeStart);
-      router.events.off('routeChangeComplete', onChangeComplete);
-    };
+    // const onChangeStart = (newUrl: string) => {
+    //   const newPage = newUrl.match(/[?&]page=([^&]+)/)?.[1] || null;
+    //   const currentPage = router.query.page || null;
+    //   const newSearch = newUrl.match(/[?&]search=([^&]+)/)?.[1] || null;
+    //   const currentSearch = router.query.search || null;
+    //   if (newPage !== currentPage || newSearch !== currentSearch) {
+    //     setLoading(true);
+    //   }
+    // };
+    // const onChangeComplete = () => setLoading(false);
+    // router.events.on('routeChangeStart', onChangeStart);
+    // router.events.on('routeChangeComplete', onChangeComplete);
+    // return () => {
+    //   router.events.off('routeChangeStart', onChangeStart);
+    //   router.events.off('routeChangeComplete', onChangeComplete);
+    // };
   }, []);
 
   if (loading) return <Loader />;

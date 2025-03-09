@@ -1,5 +1,7 @@
+'use client';
+
 import { useTheme } from '../../context/ThemeContext';
-import { useRouter } from 'next/router';
+// import { useRouter } from 'next/navigation';
 
 interface PagerProps {
   nextUrl: string | null;
@@ -8,13 +10,13 @@ interface PagerProps {
 
 export const Pager = ({ prevUrl, nextUrl }: PagerProps) => {
   const { theme } = useTheme();
-  const router = useRouter();
+  // const router = useRouter();
   const onMovePage = (url: string | null) => {
     if (url) {
-      const page = url.split('page=')[1];
-      router.push({
-        query: { ...router.query, page },
-      });
+      // const page = url.split('page=')[1];
+      // router.push({
+      //   query: { ...router.query, page },
+      // });
     }
   };
 

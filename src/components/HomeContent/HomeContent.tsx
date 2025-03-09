@@ -1,10 +1,11 @@
+'use client';
 import { useState } from 'react';
 import { SearchBar } from '../SearchBar/SearchBar';
 import { SearchResults } from '../SearchResults/SearchResults';
 import { useTheme } from '../../context/ThemeContext';
 import { InfoPanel } from '../InfoPanel/InfoPanel';
 import { Character, CharacterSearchResults } from '@/shared/types';
-import { useRouter } from 'next/router';
+// import { useRouter } from 'next/navigation';
 
 interface Props {
   charactersData: CharacterSearchResults;
@@ -17,21 +18,22 @@ export const HomeContent = ({
   infoPanelVisibility = false,
   character,
 }: Props) => {
-  const router = useRouter();
-  const [searchTerm, setSearchTerm] = useState(router.query.search as string);
+  // const router = useRouter();
+  // const [searchTerm, setSearchTerm] = useState(router.query.search as string);
+  const [searchTerm, setSearchTerm] = useState('');
   const { theme } = useTheme();
   const onSearch = (text: string) => {
     setSearchTerm(text);
-    router.push({
-      query: { ...router.query, search: text, page: '1' },
-    });
+    // router.push({
+    //   query: { ...router.query, search: text, page: '1' },
+    // });
   };
 
   const handleContainerClick = () => {
-    router.push({
-      pathname: `/`,
-      query: { page: router.query.page, search: router.query.search },
-    });
+    // router.push({
+    //   pathname: `/`,
+    //   query: { page: router.query.page, search: router.query.search },
+    // });
   };
 
   return (
