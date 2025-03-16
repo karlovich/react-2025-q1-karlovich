@@ -2,7 +2,7 @@ import * as yup from 'yup';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { User } from '../../shared/types';
-import { setHookFormData } from '../../features/formStoreSlice';
+import { setUncontrolledFormData } from '../../features/formStoreSlice';
 import { useNavigate } from 'react-router';
 import { RootState } from '../../app/store';
 
@@ -23,6 +23,21 @@ const schema = yup.object().shape({
     .boolean()
     .required()
     .oneOf([true], ' Please accept T&C before submitting'),
+  image: yup
+    .mixed<FileList>()
+    .optional()
+    .test('fileSize', 'Image size exeeds the limit 2MB', (value) => {
+      if (!value || !(value instanceof FileList) || value.length === 0) {
+        return true;
+      }
+      return value[0].size <= 2000000;
+    })
+    .test('fileType', 'Fomat is not supported', (value) => {
+      if (!value || !(value instanceof FileList) || value.length === 0) {
+        return true;
+      }
+      return ['image/png', 'image/jpeg'].includes(value[0].type);
+    }),
 });
 
 export const UncontrolledFormPage = () => {
@@ -43,12 +58,13 @@ export const UncontrolledFormPage = () => {
       gender: formData.get('gender') as string,
       country: formData.get('country') as string,
       terms: formData.has('terms'),
+      image: '',
     };
 
     schema
       .validate(data, { abortEarly: false })
       .then(() => {
-        dispatch(setHookFormData(data));
+        dispatch(setUncontrolledFormData(data));
         navigate('/');
       })
       .catch((yupError: yup.ValidationError) => {
@@ -138,6 +154,19 @@ export const UncontrolledFormPage = () => {
           {errors.terms && (
             <label className="text-amber-500">{errors.terms}</label>
           )}
+        </div>
+        <div className="p-2">
+          <label htmlFor="input-picture-2">Image: </label>
+          {errors.image && (
+            <label className="text-amber-500">{errors.image}</label>
+          )}
+          <input
+            id="input-picture-1"
+            type="file"
+            name="image"
+            accept="image/png, image/jpeg"
+            className="border border-black p-2 rounded bg-white text-black w-full"
+          />
         </div>
         <div className="p-2">
           <button

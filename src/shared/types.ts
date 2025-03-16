@@ -5,4 +5,5 @@ export interface User {
   gender: string;
   terms: boolean;
   country: string;
+  image: string;
 }

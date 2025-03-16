@@ -7,6 +7,10 @@ import { setHookFormData } from '../../features/formStoreSlice';
 import { useNavigate } from 'react-router';
 import { RootState } from '../../app/store';
 
+interface UserForm extends Omit<User, 'image'> {
+  image?: FileList;
+}
+
 const schema = yup.object().shape({
   name: yup
     .string()
@@ -24,6 +28,21 @@ const schema = yup.object().shape({
     .boolean()
     .required()
     .oneOf([true], ' Please accept T&C before submitting'),
+  image: yup
+    .mixed<FileList>()
+    .optional()
+    .test('fileSize', 'Image size exeeds the limit 2MB', (value) => {
+      if (!value || !(value instanceof FileList) || value.length === 0) {
+        return true;
+      }
+      return value[0].size <= 2000000;
+    })
+    .test('fileType', 'Fomat is not supported', (value) => {
+      if (!value || !(value instanceof FileList) || value.length === 0) {
+        return true;
+      }
+      return ['image/png', 'image/jpeg'].includes(value[0].type);
+    }),
 });
 
 export const ControlledFormPage = () => {
@@ -34,14 +53,32 @@ export const ControlledFormPage = () => {
     register,
     handleSubmit,
     formState: { errors, isValid },
-  } = useForm<User>({
+  } = useForm<UserForm>({
     resolver: yupResolver(schema),
     mode: 'onChange',
   });
 
-  const onSubmit = (data: User) => {
-    dispatch(setHookFormData(data));
-    navigate('/');
+  const onSubmit = async (data: UserForm) => {
+    if (data.image && data.image.length) {
+      const file = data.image[0];
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onloadend = () => {
+        const userData: User = {
+          ...data,
+          image: reader.result as string,
+        };
+        dispatch(setHookFormData(userData));
+        navigate('/');
+      };
+    } else {
+      const userData: User = {
+        ...data,
+        image: '',
+      };
+      dispatch(setHookFormData(userData));
+      navigate('/');
+    }
   };
 
   return (
@@ -117,6 +154,19 @@ export const ControlledFormPage = () => {
           </datalist>
         </div>
         <div className="p-2">
+          <label htmlFor="input-picture-1">Image: </label>
+          {errors.image && (
+            <label className="text-amber-500">{errors.image.message}</label>
+          )}
+          <input
+            id="input-picture-1"
+            type="file"
+            {...register('image')}
+            accept="image/png, image/jpeg"
+            className="border border-black p-2 rounded bg-white text-black w-full"
+          />
+        </div>
+        <div className="p-2">
           <label>
             <input type="checkbox" {...register('terms')} /> Accept Terms &
             Conditions
@@ -128,7 +178,7 @@ export const ControlledFormPage = () => {
         <div className="p-2">
           <button
             type="submit"
-            className={`bg-slate-950 text-white hover:bg-slate-700 font-bold p-2 rounded ${isValid ? 'cursor-pointer' : 'hover:bg-zinc-400 bg-zinc-400'}`}
+            className={`bg-slate-950 text-white hover:bg-slate-700 font-bold p-2 rounded cursor-pointer ${!isValid && 'hover:bg-zinc-400 bg-zinc-400'}`}
           >
             Submit
           </button>

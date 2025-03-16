@@ -11,6 +11,8 @@ const HomePage = () => {
   );
 
   const [higlightHookFormUser, setHiglightHookFormUser] = useState(false);
+  const [higlightUncontrolledUser, setHiglightUncontrolledUser] =
+    useState(false);
 
   useEffect(() => {
     setHiglightHookFormUser(true);
@@ -18,6 +20,13 @@ const HomePage = () => {
       setHiglightHookFormUser(false);
     }, 3000);
   }, [hookFormUser]);
+
+  useEffect(() => {
+    setHiglightUncontrolledUser(true);
+    setTimeout(() => {
+      setHiglightUncontrolledUser(false);
+    }, 3000);
+  }, [uncontrolledFormUser]);
 
   return (
     <>
@@ -35,8 +44,39 @@ const HomePage = () => {
           <p>Hook User Gender: {hookFormUser?.gender}</p>
           <p>Hook User Country: {hookFormUser?.country}</p>
           <p>Hook User Terms: {hookFormUser?.terms}</p>
+          <p>
+            Hook User Image:
+            <img
+              width={200}
+              height={200}
+              src={hookFormUser?.image}
+              alt="Hook Form Img"
+            />
+          </p>
         </div>
-        <div>Uncontrolled User Name: {uncontrolledFormUser?.name}</div>
+        <div
+          className={
+            higlightUncontrolledUser && uncontrolledFormUser
+              ? 'bg-amber-500'
+              : 'bg-transparent'
+          }
+        >
+          <p>Uncontrolled User Name: {uncontrolledFormUser?.name}</p>
+          <p>Uncontrolled User Age: {uncontrolledFormUser?.age}</p>
+          <p>Uncontrolled User Email: {uncontrolledFormUser?.email}</p>
+          <p>Uncontrolled User Gender: {uncontrolledFormUser?.gender}</p>
+          <p>Uncontrolled User Country: {uncontrolledFormUser?.country}</p>
+          <p>Uncontrolled User Terms: {uncontrolledFormUser?.terms}</p>
+          <p>
+            Uncontrolled User Image:
+            <img
+              width={200}
+              height={200}
+              src={uncontrolledFormUser?.image}
+              alt="Uncontrolled Form Img"
+            />
+          </p>
+        </div>
       </div>
     </>
   );
