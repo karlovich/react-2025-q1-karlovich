@@ -1,3 +1,3 @@
-export interface TBD {
-  tbd: string;
+export interface User {
+  name: string;
 }

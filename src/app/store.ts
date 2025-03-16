@@ -1,10 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit';
-import cardStoreReducer from '../features/cardStoreSlice';
 import { setupListeners } from '@reduxjs/toolkit/query/react';
+import formStoreReducer from '../features/formStoreSlice';
 
 export const store = configureStore({
   reducer: {
-    cardStore: cardStoreReducer,
+    formStore: formStoreReducer,
   },
 });
 
