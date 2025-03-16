@@ -40,7 +40,6 @@ export const ControlledFormPage = () => {
   });
 
   const onSubmit = (data: User) => {
-    console.log(data);
     dispatch(setHookFormData(data));
     navigate('/');
   };

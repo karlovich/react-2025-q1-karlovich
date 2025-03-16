@@ -18,11 +18,9 @@ export const formStoreSlice = createSlice({
   reducers: {
     setHookFormData: (state, action: PayloadAction<User>) => {
       state.userHookForm = action.payload;
-      console.log(state, action);
     },
     setUncontrolledFormData: (state, action: PayloadAction<User>) => {
       state.userUncontrolledForm = action.payload;
-      console.log(state, action);
     },
     reset: () => {
       return initialState;
