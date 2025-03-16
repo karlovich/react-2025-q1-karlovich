@@ -1,10 +1,12 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { setupListeners } from '@reduxjs/toolkit/query/react';
 import formStoreReducer from '../features/formStoreSlice';
+import countriesReducer from '../features/countriesSlice';
 
 export const store = configureStore({
   reducer: {
     formStore: formStoreReducer,
+    countriesStore: countriesReducer,
   },
 });
 

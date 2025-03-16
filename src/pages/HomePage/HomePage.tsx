@@ -21,10 +21,23 @@ const HomePage = () => {
 
   return (
     <>
-      <p className={higlightHookFormUser ? 'bg-amber-500' : 'bg-transparent'}>
-        Hook User Name: {hookFormUser?.name}
-      </p>
-      <p>Uncontrolled User Name: {uncontrolledFormUser?.name}</p>
+      <div className="flex">
+        <div
+          className={
+            higlightHookFormUser && hookFormUser
+              ? 'bg-amber-500'
+              : 'bg-transparent'
+          }
+        >
+          <p>Hook User Name: {hookFormUser?.name}</p>
+          <p>Hook User Age: {hookFormUser?.age}</p>
+          <p>Hook User Email: {hookFormUser?.email}</p>
+          <p>Hook User Gender: {hookFormUser?.gender}</p>
+          <p>Hook User Country: {hookFormUser?.country}</p>
+          <p>Hook User Terms: {hookFormUser?.terms}</p>
+        </div>
+        <div>Uncontrolled User Name: {uncontrolledFormUser?.name}</div>
+      </div>
     </>
   );
 };
