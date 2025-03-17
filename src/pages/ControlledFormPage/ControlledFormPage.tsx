@@ -6,6 +6,7 @@ import { User } from '../../shared/types';
 import { setHookFormData } from '../../features/formStoreSlice';
 import { useNavigate } from 'react-router';
 import { RootState } from '../../app/store';
+import { convertFileToBase64 } from '../../shared/helpers';
 
 interface UserForm extends Omit<User, 'image'> {
   image?: FileList;
@@ -59,26 +60,16 @@ export const ControlledFormPage = () => {
   });
 
   const onSubmit = async (data: UserForm) => {
-    if (data.image && data.image.length) {
-      const file = data.image[0];
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onloadend = () => {
-        const userData: User = {
-          ...data,
-          image: reader.result as string,
-        };
-        dispatch(setHookFormData(userData));
-        navigate('/');
-      };
-    } else {
-      const userData: User = {
-        ...data,
-        image: '',
-      };
-      dispatch(setHookFormData(userData));
-      navigate('/');
-    }
+    const userData: User = {
+      ...data,
+      image:
+        data.image && data.image.length
+          ? await convertFileToBase64(data.image[0])
+          : '',
+    };
+
+    dispatch(setHookFormData(userData));
+    navigate('/');
   };
 
   return (

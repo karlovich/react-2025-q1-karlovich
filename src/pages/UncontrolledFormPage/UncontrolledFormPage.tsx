@@ -5,6 +5,7 @@ import { User } from '../../shared/types';
 import { setUncontrolledFormData } from '../../features/formStoreSlice';
 import { useNavigate } from 'react-router';
 import { RootState } from '../../app/store';
+import { convertFileToBase64 } from '../../shared/helpers';
 
 const schema = yup.object().shape({
   name: yup
@@ -24,7 +25,7 @@ const schema = yup.object().shape({
     .required()
     .oneOf([true], ' Please accept T&C before submitting'),
   image: yup
-    .mixed<FileList>()
+    .mixed<File>()
     .optional()
     .test('fileSize', 'Image size exeeds the limit 2MB', (value) => {
       if (!value || !(value instanceof FileList) || value.length === 0) {
@@ -33,10 +34,10 @@ const schema = yup.object().shape({
       return value[0].size <= 2000000;
     })
     .test('fileType', 'Fomat is not supported', (value) => {
-      if (!value || !(value instanceof FileList) || value.length === 0) {
+      if (!value || !(value instanceof File) || value.size === 0) {
         return true;
       }
-      return ['image/png', 'image/jpeg'].includes(value[0].type);
+      return ['image/png', 'image/jpeg'].includes(value.type);
     }),
 });
 
@@ -47,23 +48,36 @@ export const UncontrolledFormPage = () => {
 
   const [errors, setErrors] = useState<Record<string, string>>({});
 
-  const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     const formData = new FormData(event.currentTarget);
-    const data: User = {
+    // const imageFile = formData.get('image') as File;
+    const validationData = {
       name: formData.get('name') as string,
       age: Number(formData.get('age')),
       email: formData.get('email') as string,
       gender: formData.get('gender') as string,
       country: formData.get('country') as string,
       terms: formData.has('terms'),
-      image: '',
+      image: formData.get('image') as File,
+      // image:
+      //   imageFile && imageFile.size > 0
+      //     ? await convertFileToBase64(imageFile)
+      //     : '',
     };
 
+    const imageBase64 = validationData.image
+      ? await convertFileToBase64(validationData.image)
+      : '';
+
     schema
-      .validate(data, { abortEarly: false })
+      .validate(validationData, { abortEarly: false })
       .then(() => {
+        const data: User = {
+          ...validationData,
+          image: imageBase64,
+        };
         dispatch(setUncontrolledFormData(data));
         navigate('/');
       })
@@ -161,7 +175,7 @@ export const UncontrolledFormPage = () => {
             <label className="text-amber-500">{errors.image}</label>
           )}
           <input
-            id="input-picture-1"
+            id="input-picture-2"
             type="file"
             name="image"
             accept="image/png, image/jpeg"

@@ -57,7 +57,7 @@ const HomePage = () => {
         <div
           className={
             higlightUncontrolledUser && uncontrolledFormUser
-              ? 'bg-amber-500'
+              ? 'bg-lime-500'
               : 'bg-transparent'
           }
         >
