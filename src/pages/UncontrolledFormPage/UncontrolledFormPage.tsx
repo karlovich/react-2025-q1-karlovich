@@ -7,6 +7,13 @@ import { useNavigate } from 'react-router';
 import { RootState } from '../../app/store';
 import { convertFileToBase64 } from '../../shared/helpers';
 
+const passwordRequirements = {
+  hasNumber: /\d/,
+  hasUpperCase: /[A-Z]/,
+  hasLowerCase: /[a-z]/,
+  hasSpecialChar: /[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]/,
+};
+
 const schema = yup.object().shape({
   name: yup
     .string()
@@ -24,6 +31,32 @@ const schema = yup.object().shape({
     .boolean()
     .required()
     .oneOf([true], ' Please accept T&C before submitting'),
+  password: yup
+    .string()
+    .required('Password is required')
+    .min(5, 'Password must be at least 5 characters')
+    .test('hasNumber', 'Password must contain at least 1 number', (value) =>
+      passwordRequirements.hasNumber.test(value || '')
+    )
+    .test(
+      'hasUpperCase',
+      'Password must contain at least 1 uppercase letter',
+      (value) => passwordRequirements.hasUpperCase.test(value || '')
+    )
+    .test(
+      'hasLowerCase',
+      'Password must contain at least 1 lowercase letter',
+      (value) => passwordRequirements.hasLowerCase.test(value || '')
+    )
+    .test(
+      'hasSpecialChar',
+      'Password must contain at least 1 special character',
+      (value) => passwordRequirements.hasSpecialChar.test(value || '')
+    ),
+  confirmPassword: yup
+    .string()
+    .required('Please confirm your password')
+    .oneOf([yup.ref('password')], 'Passwords do not match'),
   image: yup
     .mixed<File>()
     .optional()
@@ -61,10 +94,8 @@ export const UncontrolledFormPage = () => {
       country: formData.get('country') as string,
       terms: formData.has('terms'),
       image: formData.get('image') as File,
-      // image:
-      //   imageFile && imageFile.size > 0
-      //     ? await convertFileToBase64(imageFile)
-      //     : '',
+      password: formData.get('password') as string,
+      confirmPassword: formData.get('confirmPassword') as string,
     };
 
     const imageBase64 = validationData.image
@@ -160,6 +191,30 @@ export const UncontrolledFormPage = () => {
               <option key={code} value={name} />
             ))}
           </datalist>
+        </div>
+        <div className="p-2">
+          <label htmlFor="input-password-2">Password: </label>
+          {errors.password && (
+            <label className="text-amber-500">{errors.password}</label>
+          )}
+          <input
+            id="input-password-2"
+            type="password"
+            name="password"
+            className="border border-black p-2 rounded bg-white text-black w-full"
+          />
+        </div>
+        <div className="p-2">
+          <label htmlFor="input-confirm-password-2">Confirm Password: </label>
+          {errors.confirmPassword && (
+            <label className="text-amber-500">{errors.confirmPassword}</label>
+          )}
+          <input
+            id="input-confirm-password-2"
+            type="password"
+            name="confirmPassword"
+            className="border border-black p-2 rounded bg-white text-black w-full"
+          />
         </div>
         <div className="p-2">
           <label>

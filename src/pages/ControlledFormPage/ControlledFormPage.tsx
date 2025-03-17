@@ -10,7 +10,15 @@ import { convertFileToBase64 } from '../../shared/helpers';
 
 interface UserForm extends Omit<User, 'image'> {
   image?: FileList;
+  confirmPassword: string;
 }
+
+const passwordRequirements = {
+  hasNumber: /\d/,
+  hasUpperCase: /[A-Z]/,
+  hasLowerCase: /[a-z]/,
+  hasSpecialChar: /[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]/,
+};
 
 const schema = yup.object().shape({
   name: yup
@@ -19,6 +27,9 @@ const schema = yup.object().shape({
     .required('Please type your name'),
   age: yup
     .number()
+    .transform((value, originalValue) =>
+      originalValue.trim() === '' ? undefined : value
+    )
     .positive('Age should be positive')
     .integer('Age should be integer')
     .required('Please type your age'),
@@ -29,6 +40,32 @@ const schema = yup.object().shape({
     .boolean()
     .required()
     .oneOf([true], ' Please accept T&C before submitting'),
+  password: yup
+    .string()
+    .required('Please type your password')
+    .min(5, 'Password should be at least 5 characters')
+    .test('hasNumber', 'Password must contain at least 1 number', (value) =>
+      passwordRequirements.hasNumber.test(value || '')
+    )
+    .test(
+      'hasUpperCase',
+      'Password must contain at least 1 uppercase letter',
+      (value) => passwordRequirements.hasUpperCase.test(value || '')
+    )
+    .test(
+      'hasLowerCase',
+      'Password must contain at least 1 lowercase letter',
+      (value) => passwordRequirements.hasLowerCase.test(value || '')
+    )
+    .test(
+      'hasSpecialChar',
+      'Password must contain at least 1 special character',
+      (value) => passwordRequirements.hasSpecialChar.test(value || '')
+    ),
+  confirmPassword: yup
+    .string()
+    .required('Please confirm your password')
+    .oneOf([yup.ref('password')], 'Passwords do not match'),
   image: yup
     .mixed<FileList>()
     .optional()
@@ -154,6 +191,32 @@ export const ControlledFormPage = () => {
             type="file"
             {...register('image')}
             accept="image/png, image/jpeg"
+            className="border border-black p-2 rounded bg-white text-black w-full"
+          />
+        </div>
+        <div className="p-2">
+          <label htmlFor="input-password-1">Password: </label>
+          {errors.password && (
+            <label className="text-amber-500">{errors.password.message}</label>
+          )}
+          <input
+            id="input-password-1"
+            type="password"
+            {...register('password')}
+            className="border border-black p-2 rounded bg-white text-black w-full"
+          />
+        </div>
+        <div className="p-2">
+          <label htmlFor="input-confirm-password-2">Confirm Password: </label>
+          {errors.confirmPassword && (
+            <label className="text-amber-500">
+              {errors.confirmPassword.message}
+            </label>
+          )}
+          <input
+            id="input-confirm-password-2"
+            type="password"
+            {...register('confirmPassword')}
             className="border border-black p-2 rounded bg-white text-black w-full"
           />
         </div>

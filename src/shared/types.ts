@@ -6,4 +6,5 @@ export interface User {
   terms: boolean;
   country: string;
   image: string;
+  password: string;
 }

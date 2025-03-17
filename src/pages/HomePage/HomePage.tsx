@@ -34,18 +34,20 @@ const HomePage = () => {
         <div
           className={
             higlightHookFormUser && hookFormUser
-              ? 'bg-amber-500'
-              : 'bg-transparent'
+              ? 'bg-amber-500 w-1/2'
+              : 'bg-transparent w-1/2'
           }
         >
-          <p>Hook User Name: {hookFormUser?.name}</p>
-          <p>Hook User Age: {hookFormUser?.age}</p>
-          <p>Hook User Email: {hookFormUser?.email}</p>
-          <p>Hook User Gender: {hookFormUser?.gender}</p>
-          <p>Hook User Country: {hookFormUser?.country}</p>
-          <p>Hook User Terms: {hookFormUser?.terms}</p>
+          <h2 className="font-bold">Hook form data</h2>
+          <p>User Name: {hookFormUser?.name}</p>
+          <p>User Age: {hookFormUser?.age}</p>
+          <p>User Email: {hookFormUser?.email}</p>
+          <p>User Gender: {hookFormUser?.gender}</p>
+          <p>User Country: {hookFormUser?.country}</p>
+          <p>User Password: {hookFormUser?.password}</p>
+          <p>User Terms: {hookFormUser?.terms && 'Accepted'}</p>
           <p>
-            Hook User Image:
+            User Image:
             <img
               width={200}
               height={200}
@@ -57,18 +59,20 @@ const HomePage = () => {
         <div
           className={
             higlightUncontrolledUser && uncontrolledFormUser
-              ? 'bg-lime-500'
-              : 'bg-transparent'
+              ? 'bg-lime-500 w-1/2'
+              : 'bg-transparent w-1/2'
           }
         >
-          <p>Uncontrolled User Name: {uncontrolledFormUser?.name}</p>
-          <p>Uncontrolled User Age: {uncontrolledFormUser?.age}</p>
-          <p>Uncontrolled User Email: {uncontrolledFormUser?.email}</p>
-          <p>Uncontrolled User Gender: {uncontrolledFormUser?.gender}</p>
-          <p>Uncontrolled User Country: {uncontrolledFormUser?.country}</p>
-          <p>Uncontrolled User Terms: {uncontrolledFormUser?.terms}</p>
+          <h2 className="font-bold">Uncontrolled form data</h2>
+          <p>User Name: {uncontrolledFormUser?.name}</p>
+          <p>User Age: {uncontrolledFormUser?.age}</p>
+          <p>User Email: {uncontrolledFormUser?.email}</p>
+          <p>User Gender: {uncontrolledFormUser?.gender}</p>
+          <p>User Country: {uncontrolledFormUser?.country}</p>
+          <p>User Password: {uncontrolledFormUser?.password}</p>
+          <p>User Terms: {hookFormUser?.terms && 'Accepted'}</p>
           <p>
-            Uncontrolled User Image:
+            User Image:
             <img
               width={200}
               height={200}
