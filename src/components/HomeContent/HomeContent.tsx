@@ -1,11 +1,10 @@
-import { useEffect, useState, useMemo, useCallback } from 'react';
+import { useEffect, useState } from 'react';
 import { Country } from '../../shared/types';
 import { CountryCard } from '../CountryCard';
-import React from 'react';
 
-const MemoizedCountryCard = React.memo(CountryCard);
 export const HomeContent = () => {
   const [countries, setCountries] = useState<Country[]>([]);
+  const [renderedCountries, setRenderedCountries] = useState<Country[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [sortCountryOption, setSortCountryOption] = useState('');
   const [region, setRegion] = useState('');
@@ -26,7 +25,28 @@ export const HomeContent = () => {
     fetchCountries();
   }, []);
 
+  useEffect(() => {
+    updateCountriesList();
+  }, [searchTerm, sortCountryOption, region, countries]);
+
   useEffect(() => {}, [searchTerm, sortCountryOption, region]);
+
+  const updateCountriesList = () => {
+    let updatedCountries = [...countries];
+
+    if (searchTerm) {
+      updatedCountries = applySearch(updatedCountries, searchTerm);
+    }
+
+    if (sortCountryOption) {
+      updatedCountries = sortItems(updatedCountries, sortCountryOption);
+    }
+    if (region) {
+      updatedCountries = applyRegionFilter(updatedCountries, region);
+    }
+
+    setRenderedCountries(updatedCountries);
+  };
 
   const sortItems = (items: Country[], option: string) => {
     const sortedCountries = [...items];
@@ -52,37 +72,17 @@ export const HomeContent = () => {
     );
   };
 
-  const renderedCountries = useMemo(() => {
-    let updatedCountries = [...countries];
-
-    if (searchTerm) {
-      updatedCountries = applySearch(updatedCountries, searchTerm);
-    }
-
-    if (sortCountryOption) {
-      updatedCountries = sortItems(updatedCountries, sortCountryOption);
-    }
-    if (region) {
-      updatedCountries = applyRegionFilter(updatedCountries, region);
-    }
-
-    return updatedCountries;
-  }, [searchTerm, sortCountryOption, region, countries]);
-
-  const onSort = useCallback((e: React.ChangeEvent<HTMLSelectElement>) => {
+  const onSort = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setSortCountryOption(e.target.value);
-  }, []);
+  };
 
-  const onChangeRegion = useCallback(
-    (e: React.ChangeEvent<HTMLSelectElement>) => {
-      setRegion(e.target.value);
-    },
-    []
-  );
+  const onChangeRegion = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setRegion(e.target.value);
+  };
 
-  const onSearch = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+  const onSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);
-  }, []);
+  };
 
   return (
     <>
@@ -122,7 +122,7 @@ export const HomeContent = () => {
       </div>
       <div className="countries-container">
         {renderedCountries.map((country) => {
-          return <MemoizedCountryCard key={country.cca3} country={country} />;
+          return <CountryCard key={country.cca3} country={country} />;
         })}
       </div>
     </>
