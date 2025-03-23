@@ -7,6 +7,9 @@ export interface Country {
   flags: {
     png: string;
   };
+  capital: string[];
+  independent: boolean;
+  maps: string[];
 }
 
 export interface TBD {

@@ -10,6 +10,7 @@ export const CountryCard = ({ country }: Props) => {
       <span>{country.name.common}</span>
       <span>{country.region}</span>
       <span>{country.population}</span>
+      <span>Capital: {country.capital ? country.capital[0] : 'Unknown'}</span>
     </div>
   );
 };
