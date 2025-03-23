@@ -6,7 +6,7 @@ export const HomeContent = () => {
   const [countries, setCountries] = useState<Country[]>([]);
   const [renderedCountries, setRenderedCountries] = useState<Country[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
-  const [sortCountry, setSortCountry] = useState('');
+  const [sortCountryOption, setSortCountryOption] = useState('');
   const [region, setRegion] = useState('');
 
   const fetchCountries = async () => {
@@ -16,7 +16,6 @@ export const HomeContent = () => {
         throw new Error('Error occured when fetching countries');
       const data: Country[] = await response.json();
       setCountries(data);
-      setRenderedCountries(data);
     } catch (e) {
       console.error(e);
     }
@@ -26,48 +25,63 @@ export const HomeContent = () => {
     fetchCountries();
   }, []);
 
-  const onSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const query = e.target.value;
-    setSearchTerm(query);
+  useEffect(() => {
+    updateCountriesList();
+  }, [searchTerm, sortCountryOption, region, countries]);
 
-    const filtered = countries.filter((country) =>
-      country.name.common.toLowerCase().includes(query.toLowerCase())
-    );
+  useEffect(() => {}, [searchTerm, sortCountryOption, region]);
 
-    setRenderedCountries(filtered);
+  const updateCountriesList = () => {
+    let updatedCountries = [...countries];
+
+    if (searchTerm) {
+      updatedCountries = applySearch(updatedCountries, searchTerm);
+    }
+
+    if (sortCountryOption) {
+      updatedCountries = sortItems(updatedCountries, sortCountryOption);
+    }
+    if (region) {
+      updatedCountries = applyRegionFilter(updatedCountries, region);
+    }
+
+    setRenderedCountries(updatedCountries);
   };
 
-  const onSort = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const sortOption = e.target.value;
-    setSortCountry(sortOption);
-
-    let sortedCountries = [...renderedCountries];
-
-    if (sortOption === 'name-asc') {
+  const sortItems = (items: Country[], option: string) => {
+    const sortedCountries = [...items];
+    if (option === 'name-asc') {
       sortedCountries.sort((a, b) =>
         a.name.common.localeCompare(b.name.common)
       );
-    } else if (sortOption === 'name-desc') {
+    } else if (option === 'name-desc') {
       sortedCountries.sort((a, b) =>
         b.name.common.localeCompare(a.name.common)
       );
-    } else {
-      sortedCountries = [...countries];
     }
+    return sortedCountries;
+  };
 
-    setRenderedCountries(sortedCountries);
+  const applyRegionFilter = (items: Country[], regionOption: string) => {
+    return items.filter((country) => country.region === regionOption);
+  };
+
+  const applySearch = (items: Country[], search: string) => {
+    return items.filter((country) =>
+      country.name.common.toLowerCase().includes(search.toLowerCase())
+    );
+  };
+
+  const onSort = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setSortCountryOption(e.target.value);
   };
 
   const onChangeRegion = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const region = e.target.value;
-    setRegion(region);
+    setRegion(e.target.value);
+  };
 
-    if (region === '') {
-      setRenderedCountries(countries);
-    } else {
-      const filtered = countries.filter((country) => country.region === region);
-      setRenderedCountries(filtered);
-    }
+  const onSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(e.target.value);
   };
 
   return (
@@ -94,7 +108,7 @@ export const HomeContent = () => {
           <option value="Oceania">Oceania</option>
         </select>
         <select
-          value={sortCountry}
+          value={sortCountryOption}
           onChange={onSort}
           className="p-2 border border-gray-300 rounded"
         >
