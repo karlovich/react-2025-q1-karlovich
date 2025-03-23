@@ -1,0 +1,22 @@
+@import 'tailwindcss';
+
+.countries-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.countries-instance {
+  display: flex;
+  align-items: center;
+  gap: 10px; /* Adds space between image and text */
+}
+
+.countries-instance img {
+  width: 40px;
+  height: 20px;
+}
+
+.countries-instance span {
+  font-size: 14px;
+}
