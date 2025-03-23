@@ -86,7 +86,10 @@ export const HomeContent = () => {
 
   return (
     <>
-      <div className="flex space-x-4">
+      <h1 className="text-black text-xl font-bold ">
+        Click to mark visited country. Filter&Sort options:
+      </h1>
+      <div className="flex space-x-4 p-4">
         <input
           type="text"
           className="p-2 border border-gray-300 rounded"
@@ -119,12 +122,7 @@ export const HomeContent = () => {
       </div>
       <div className="countries-container">
         {renderedCountries.map((country) => {
-          return (
-            <CountryCard
-              key={country.name.common + country.flags.png}
-              country={country}
-            />
-          );
+          return <CountryCard key={country.cca3} country={country} />;
         })}
       </div>
     </>

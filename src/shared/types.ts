@@ -9,6 +9,7 @@ export interface Country {
   };
   capital: string[];
   independent: boolean;
+  cca3: string;
   maps: string[];
 }
 
