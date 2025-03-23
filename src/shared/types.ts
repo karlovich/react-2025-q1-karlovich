@@ -8,3 +8,7 @@ export interface Country {
     png: string;
   };
 }
+
+export interface TBD {
+  TBD: string;
+}
