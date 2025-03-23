@@ -3,8 +3,6 @@ import HomePage from './pages/HomePage/HomePage';
 import { Page404 } from './pages/Page404/Page404';
 import { Footer } from './components/Footer/Footer';
 import { About } from './pages/About/About';
-import { UncontrolledFormPage } from './pages/UncontrolledFormPage/UncontrolledFormPage';
-import { ControlledFormPage } from './pages/ControlledFormPage/ControlledFormPage';
 
 const App = () => {
   return (
@@ -13,8 +11,6 @@ const App = () => {
       <Routes>
         <Route element={<Layout />}>
           <Route path="/" element={<HomePage />} />
-          <Route path="/controlled" element={<ControlledFormPage />} />
-          <Route path="/uncontrolled" element={<UncontrolledFormPage />} />
           <Route path="/about" element={<About />} />
           <Route path="*" element={<Page404 />} />
         </Route>
@@ -41,12 +37,6 @@ const Navigation = () => {
     >
       <Link to="/" className="hover:text-gray-400">
         Home
-      </Link>
-      <Link to="/controlled" className="hover:text-gray-400">
-        Controlled
-      </Link>
-      <Link to="/uncontrolled" className="hover:text-gray-400">
-        Uncontrolled
       </Link>
       <Link to="/about" className="hover:text-gray-400">
         About
